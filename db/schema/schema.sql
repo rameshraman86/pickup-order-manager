@@ -5,6 +5,7 @@ DROP TABLE IF EXISTS orders;
 DROP TABLE IF EXISTS orders_dishes;
 DROP TABLE IF EXISTS orders_queue;
 
+-- this is a table
 CREATE TABLE restaurants (
   id SERIAL PRIMARY KEY,
   name VARCHAR(255),
