@@ -9,6 +9,7 @@ const express = require('express');
 const router  = express.Router();
 const userQueries = require('../db/queries/users');
 
+
 router.get('/', (req, res) => {
   userQueries.getUsers()
     .then(users => {
@@ -20,5 +21,6 @@ router.get('/', (req, res) => {
         .json({ error: err.message });
     });
 });
+
 
 module.exports = router;
