@@ -19,12 +19,12 @@ CREATE TABLE restaurants (
 CREATE TABLE customers (
   id SERIAL PRIMARY KEY,
   phone VARCHAR(255) NOT NULL
-  --order_num INTEGER REFERENCES orders(id) ON DELETE CASCADE
+  order_num INTEGER REFERENCES orders(id) ON DELETE CASCADE
 );
 
 CREATE TABLE orders (
   id SERIAL PRIMARY KEY,
-  --customer_id INTEGER REFERENCES customers(id) ON DELETE CASCADE,
+  customer_id INTEGER REFERENCES customers(id) ON DELETE CASCADE,
   status VARCHAR(255),
   eta_minutes INTEGER,
   total_amount NUMERIC,
