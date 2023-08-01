@@ -1,10 +1,10 @@
--- Drop the foreign key constraint in the customers table
-ALTER TABLE customers
-DROP CONSTRAINT fk_customer_order;
+-- -- Drop the foreign key constraint in the customers table
+-- ALTER TABLE customers
+-- DROP CONSTRAINT fk_customer_order;
 
--- Drop the order_id column from the customers table
-ALTER TABLE customers
-DROP COLUMN order_id;
+-- -- Drop the order_id column from the customers table
+-- ALTER TABLE customers
+-- DROP COLUMN order_id;
 
 
 DROP TABLE IF EXISTS orders_dishes;
