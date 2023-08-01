@@ -1,14 +1,24 @@
+-- Drop the foreign key constraint in the customers table
+ALTER TABLE customers
+DROP CONSTRAINT fk_customer_order;
+
+-- Drop the order_id column from the customers table
+ALTER TABLE customers
+DROP COLUMN order_id;
+
+
 DROP TABLE IF EXISTS orders_dishes;
 
 DROP TABLE IF EXISTS orders_queue;
 
-DROP TABLE IF EXISTS dishes;
+DROP TABLE IF EXISTS customers;
 
 DROP TABLE IF EXISTS orders;
 
-DROP TABLE IF EXISTS customers CASCADE;
-
 DROP TABLE IF EXISTS restaurants;
+
+DROP TABLE IF EXISTS dishes;
+
 
 -- Create the restaurants table
 CREATE TABLE restaurants (
@@ -38,18 +48,6 @@ CREATE TABLE orders (
   order_date TIMESTAMP,
   cancel_reason VARCHAR(255)
 );
-
--- Add the order_id column to the customers table
-ALTER TABLE
-  customers
-ADD
-  COLUMN order_id INTEGER;
-
--- Add the foreign key constraint to the customers table
-ALTER TABLE
-  customers
-ADD
-  CONSTRAINT fk_customer_order FOREIGN KEY (order_id) REFERENCES orders(id) ON DELETE CASCADE;
 
 -- Create the dishes table
 CREATE TABLE dishes(
