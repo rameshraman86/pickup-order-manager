@@ -3,7 +3,7 @@
 
 const express = require('express');
 const router = express.Router();
-const orders = require('../db/queries/orders');
+const orders = require('../db/queries/ordersDb');
 
 //CRUD
 //create
@@ -22,8 +22,41 @@ router.get('/', (req, res) => {
     });
 });
 
+//readNewOrders
+router.get('/new-orders', (req, res) => {
 
-//readone
+  orders.getOrdersByStatus()
+    .then(newOrders => {
+      res.send(newOrders);
+    })
+    .catch(err => {
+      res.status(500).json({ error: err.message });
+    });
+});
+
+
+//readAcceptedOrders
+router.get('/accepted-orders', (req, res) => {
+  orders.getAcceptedOrders()
+    .then(acceptedOrders => {
+      res.send(acceptedOrders);
+    })
+    .catch(err => {
+      res.status(500).json({ error: err.message });
+    });
+});
+
+//readCompletedOrders
+router.get('/completed-orders', (req, res) => {
+  orders.getCompletedOrders()
+    .then(completedOrders => {
+      res.send(completedOrders);
+    })
+    .catch(err => {
+      res.status(500).json({ error: err.message });
+    });
+});
+
 
 
 //update
