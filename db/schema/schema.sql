@@ -11,9 +11,9 @@ DROP TABLE IF EXISTS orders_dishes;
 
 DROP TABLE IF EXISTS orders_queue;
 
-DROP TABLE IF EXISTS customers;
-
 DROP TABLE IF EXISTS orders;
+
+DROP TABLE IF EXISTS customers;
 
 DROP TABLE IF EXISTS restaurants;
 
