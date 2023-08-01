@@ -3,14 +3,14 @@
 // Function to fetch new orders data from the server. These orders are in 'Pending Acceptance'
 const fetchNewOrders = () => {
   return $.ajax({
-    url: '/api/orders/new-orders',
+    url: '/api/ordersQueue/new-orders',
     method: 'GET',
     dataType: 'json',
   });
 };
 // Function to update the HTML content with the fetched orders data
 const updateNewOrdersContent = () => {
-  const newOrdersDiv = $('.new-orders div');
+  const newOrdersDiv = $('.new-orders');
 
   fetchNewOrders()
     .then((orders) => {
@@ -21,12 +21,18 @@ const updateNewOrdersContent = () => {
         // Add the new orders to the "New Orders" section
         orders.forEach((order) => {
           const orderHTML = `
-            <p>
-              Customer ID: ${order.customer_id}
-              Status: ${order.status}
-              ETA: ${order.eta_minutes}
-              Total Amount: ${order.total_amount}
-            </p>
+          <div>
+              <span class="order-number">Order Number: </span> ${order.id}
+              <span class="customer-id">Customer ID: </span> ${order.customer_id}
+              <span class="status">Status: </span> ${order.status}
+
+              <label for="eta">ETA</label>
+              <input type="text" name="eta" id="eta"></input>
+              <span class="total-amount">Total Amount: </span> ${order.total_amount}
+
+              <button type="submit" id="btn-approve">Approve</button>
+              <button type="submit" id="btn-decline">Decline</button>
+            </div>
           `;
           newOrdersDiv.append(orderHTML);
         });
@@ -41,11 +47,10 @@ const updateNewOrdersContent = () => {
     });
 };
 
-
 //accepted orders
 const fetchAcceptedOrders = function() {
   return $.ajax({
-    url: '/api/orders/accepted-orders',
+    url: '/api/ordersQueue/accepted-orders',
     method: 'GET',
     dataType: 'json',
   });
@@ -65,6 +70,7 @@ const updateAcceptedOrders = () => {
         orders.forEach((order) => {
           const orderHTML = `
             <p>
+              Order Number: ${order.id}
               Customer ID: ${order.customer_id}
               Status: ${order.status}
               ETA: ${order.eta_minutes}
@@ -85,11 +91,10 @@ const updateAcceptedOrders = () => {
 };
 
 
-
 //accepted orders
 const fetchCompletedOrders = function() {
   return $.ajax({
-    url: '/api/orders/completed-orders',
+    url: '/api/ordersQueue/completed-orders',
     method: 'GET',
     dataType: 'json',
   });
@@ -109,6 +114,7 @@ const updateCompletedOrders = () => {
         orders.forEach((order) => {
           const orderHTML = `
             <p>
+              Order Number: ${order.id}
               Customer ID: ${order.customer_id}
               Status: ${order.status}
               ETA: ${order.eta_minutes}
@@ -127,7 +133,6 @@ const updateCompletedOrders = () => {
       completedOrdersDiv.html('<p>Failed to fetch orders data.</p>');
     });
 };
-
 
 
 // Update the orders content on page load

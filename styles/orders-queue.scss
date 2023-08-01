@@ -1,0 +1,15 @@
+.content-page {
+  display: flex;
+  flex-direction: column;
+
+
+  .new-orders {
+    display: flex;
+    flex-direction: column;
+    background: rgba(109, 119, 109, 0.192);
+  }
+
+  span {
+    font-weight: bold;
+  }
+}

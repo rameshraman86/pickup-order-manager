@@ -6,12 +6,20 @@ const router = express.Router();
 const orders = require('../db/queries/ordersDb');
 
 //CRUD
-//create
+
+//************CREATE************
+//create a new order when restaurant clicks 'Accept' button in /orders -->New Orders
+// POST '/orders_queue/accept_order'
+router.post('', (req, res) => {
+  res.send('accepted');
+});
 
 
-//readall
+
+
+//*********READ************
+//readallorders
 router.get('/', (req, res) => {
-
   orders.getOrders()
     .then(orders => {
       res.send(orders);
@@ -24,7 +32,6 @@ router.get('/', (req, res) => {
 
 //readNewOrders
 router.get('/new-orders', (req, res) => {
-
   orders.getOrdersByStatus()
     .then(newOrders => {
       res.send(newOrders);
@@ -59,10 +66,10 @@ router.get('/completed-orders', (req, res) => {
 
 
 
-//update
+//************update************
 
 
-//delete
+//************delete************
 
 
 

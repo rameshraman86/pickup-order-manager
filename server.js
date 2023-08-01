@@ -39,8 +39,8 @@ app.use(express.static('public'));
 // app.use('/api/users', userApiRoutes);
 // app.use('/api/widgets', widgetApiRoutes);
 // app.use('/users', usersRoutes);
-const ordersApiRoutes = require('./routes/orders-api');
-app.use('/api/orders', ordersApiRoutes);
+const ordersQueueApiRoutes = require('./routes/orders-queue-api');
+app.use('/api/ordersQueue', ordersQueueApiRoutes);
 
 // Note: mount other resources here, using the same pattern above
 
@@ -53,7 +53,7 @@ app.get('/', (req, res) => {
 });
 
 app.get('/orders', (req, res) => {
-  res.render('order_queue');
+  res.render('orders_queue');
 })
 
 

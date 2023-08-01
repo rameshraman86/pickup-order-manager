@@ -20,6 +20,7 @@ const getOrdersByStatus = async () => {
   return data.rows;
 };
 
+
 //readAcceptedOrders
 const getAcceptedOrders = async () => {
   const queryString = "SELECT * FROM orders WHERE status IN ($1, $2, $3, $4);";
