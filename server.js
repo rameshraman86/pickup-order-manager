@@ -40,6 +40,7 @@ const orderRoutes = require('./routes/order');
 //app.use('/api/widgets', widgetApiRoutes);
 //app.use('/users', usersRoutes);
 app.use('/', homeRoutes);
+app.use('/order', orderRoutes);
 //app.use('/api/orders', orderRoutes); - for backend requests for the order entity (should be its own routes file)
 // Note: mount other resources here, using the same pattern above
 
