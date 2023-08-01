@@ -21,6 +21,10 @@ router.get('/', (req, res) => {
   res.render('order', { dishes }); // Pass the 'dishes' array to the 'order.ejs' view
 });
 
+router.get('/api', (req, res) => {
+  return res.status(200).json({ dishes }); // Pass the 'dishes' array to the 'order.ejs' view
+});
+
 router.post('/delete', (req, res) => {
   const { dishId } = req.body;
   res.redirect('/order'); // Redirect back to the order page after deletion

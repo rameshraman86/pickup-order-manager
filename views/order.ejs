@@ -1,5 +1,3 @@
-<!-- order.ejs -->
-
 <!DOCTYPE html>
 <html lang="en">
 
@@ -56,6 +54,7 @@
     <% }); %>
   </div>
 
+
   <!-- Order form -->
   <div class="order-form">
     <form action="/place_order" method="POST">
@@ -76,9 +75,28 @@
     </form>
   </div>
 
-  <!-- Initialize an empty object to store dish data -->
+
+
+  <!-- Fetch dishes data from the server API endpoint on page load -->
   <script>
     let dishesData = {};
+    document.addEventListener('DOMContentLoaded', async () => {
+      console.log("hello");
+      try {
+        const response = await fetch('/order/api');
+        const data = await response.json();
+        console.log(">>>>",data);
+        // Store dish data in the dishesData object using dish ID as the key
+        data.dishes.forEach(dish => {
+          dishesData[dish.id] = dish.price;
+        });
+
+        // Call updateSubtotal function to set the initial subtotal
+        updateSubtotal();
+      } catch (error) {
+        console.error('Error fetching dishes data', error);
+      }
+    });
   </script>
 
   <!-- Update subtotal function -->
@@ -91,30 +109,12 @@
         const dishId = display.getAttribute('data-dish-id');
         const price = dishesData[dishId];
         const quantity = parseInt(display.textContent);
-
+        console.log(dishId, dishesData, price, quantity)
         subtotal += price * quantity;
       });
 
       document.getElementById('subtotal').textContent = subtotal.toFixed(2);
     }
-  </script>
-
-  <!-- Fetch dishes data from the server API endpoint on page load -->
-  <script>
-    document.addEventListener('DOMContentLoaded', () => {
-      fetch('/api/dishes')
-        .then(response => response.json())
-        .then(data => {
-          // Store dish data in the dishesData object using dish ID as the key
-          data.forEach(dish => {
-            dishesData[dish.id] = dish.price;
-          });
-
-          // Call updateSubtotal function to set the initial subtotal
-          updateSubtotal();
-        })
-        .catch(error => console.error('Error fetching dishes data', error));
-    });
   </script>
 
   <!-- Event listeners for "Add to Cart" and "Delete" buttons -->
