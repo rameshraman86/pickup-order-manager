@@ -45,9 +45,9 @@
         <h2><%= dish.name %></h2>
         <p><%= dish.description %></p>
         <p>Price: $<%= dish.price.toFixed(2) %></p>
-        <!-- Quantity input and Add to Cart button -->
+        <!-- Quantity display and Add to Cart button -->
         <div class="quantity-controls">
-          <input type="number" name="quantity_<%= dish.id %>" value="0" min="0">
+          <span class="quantity-display" data-dish-id="<%= dish.id %>">0</span>
           <button class="add-to-cart-button" data-dish-id="<%= dish.id %>">Add to Cart</button>
           <button class="delete-button" data-dish-id="<%= dish.id %>">Delete</button>
         </div>
@@ -76,76 +76,86 @@
     </form>
   </div>
 
+  <!-- Initialize an empty object to store dish data -->
   <script>
-    // Initialize an empty object to store dish data
     let dishesData = {};
+  </script>
 
-    // Function to update the subtotal based on the selected quantities
+  <!-- Update subtotal function -->
+  <script>
     function updateSubtotal() {
-      const quantityInputs = document.querySelectorAll('.quantity-controls input');
+      const quantityDisplays = document.querySelectorAll('.quantity-display');
       let subtotal = 0;
 
-      quantityInputs.forEach((input) => {
-        const dishId = input.getAttribute('data-dish-id');
+      quantityDisplays.forEach((display) => {
+        const dishId = display.getAttribute('data-dish-id');
         const price = dishesData[dishId];
-        const quantity = parseInt(input.value);
+        const quantity = parseInt(display.textContent);
 
         subtotal += price * quantity;
       });
 
       document.getElementById('subtotal').textContent = subtotal.toFixed(2);
     }
+  </script>
 
-    // Event listener for the Add to Cart button
+  <!-- Fetch dishes data from the server API endpoint on page load -->
+  <script>
+    document.addEventListener('DOMContentLoaded', () => {
+      fetch('/api/dishes')
+        .then(response => response.json())
+        .then(data => {
+          // Store dish data in the dishesData object using dish ID as the key
+          data.forEach(dish => {
+            dishesData[dish.id] = dish.price;
+          });
+
+          // Call updateSubtotal function to set the initial subtotal
+          updateSubtotal();
+        })
+        .catch(error => console.error('Error fetching dishes data', error));
+    });
+  </script>
+
+  <!-- Event listeners for "Add to Cart" and "Delete" buttons -->
+  <script>
     document.querySelectorAll('.add-to-cart-button').forEach((button) => {
       button.addEventListener('click', (event) => {
         const dishId = button.getAttribute('data-dish-id');
-        const quantityInput = document.querySelector(`.quantity-controls input[data-dish-id="${dishId}"]`);
-        let quantity = parseInt(quantityInput.value);
+        const quantityDisplay = document.querySelector(`.quantity-display[data-dish-id="${dishId}"]`);
+        let quantity = parseInt(quantityDisplay.textContent);
 
         quantity += 1;
-        quantityInput.value = quantity;
+        quantityDisplay.textContent = quantity.toString();
 
         updateSubtotal();
       });
     });
 
-    // Event listener for the Delete button
     document.querySelectorAll('.delete-button').forEach((button) => {
       button.addEventListener('click', (event) => {
         const dishId = button.getAttribute('data-dish-id');
-        const quantityInput = document.querySelector(`.quantity-controls input[data-dish-id="${dishId}"]`);
+        const quantityDisplay = document.querySelector(`.quantity-display[data-dish-id="${dishId}"]`);
+        let quantity = parseInt(quantityDisplay.textContent);
 
-        quantityInput.value = '0';
+        quantity -= 1; // Decrease the quantity by 1
+        if (quantity < 0) quantity = 0; // Ensure quantity doesn't go below 0
+        quantityDisplay.textContent = quantity.toString();
 
         updateSubtotal();
       });
     });
 
-    // Event listener for the Clear Cart button
+    // Event listener for the "Clear Cart" button
     document.getElementById('clear-cart-button').addEventListener('click', (event) => {
-      const quantityInputs = document.querySelectorAll('.quantity-controls input');
+      const quantityDisplays = document.querySelectorAll('.quantity-display');
 
-      quantityInputs.forEach((input) => {
-        input.value = '0';
+      quantityDisplays.forEach((display) => {
+        display.textContent = '0';
       });
 
       updateSubtotal();
     });
-
-    // Fetch dishes data from the server API endpoint
-    fetch('/api/dishes')
-      .then(response => response.json())
-      .then(data => {
-        // Store dish data in the dishesData object using dish ID as the key
-        data.forEach(dish => {
-          dishesData[dish.id] = dish.price;
-        });
-
-        // Call updateSubtotal function to set the initial subtotal
-        updateSubtotal();
-      })
-      .catch(error => console.error('Error fetching dishes data', error));
   </script>
 
 </body>
