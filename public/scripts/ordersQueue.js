@@ -20,17 +20,21 @@ const updateNewOrdersContent = () => {
           <div class="test ${order.id}">
             <span class="order-number" data-order-id="${order.id}">Order Number: </span> ${order.id}
             <span class="customer-id">Customer ID: </span> ${order.customer_id}
-            <span class="status">Status: </span> ${order.status}
+            <span class="total-amount">Total Amount: </span> ${order.total_amount}
+
 
           <form>
             <label for="eta">ETA</label>
             <input type="number" name="eta" class = "eta" required></input>
-            <span class="total-amount">Total Amount: </span> ${order.total_amount}
-
             <button type="submit" class="btn-accept">Accept</button>
-            <button type="button" class="btn-decline">Decline</button>
             </div>
+            </form>
+
+          <form>
+            <button type="submit" class="btn-decline">Decline</button>
+            <button type="submit" class="btn-details">Order Details</button>
           </form>
+          <br>
           `;
           newOrdersDiv.append(orderHTML);
         });
@@ -40,7 +44,7 @@ const updateNewOrdersContent = () => {
       }
     })
     .then(() => {
-      $(".btn-accept").click(function() {
+      $(".new-orders button").click(function() {
         const parentDiv = $(this).closest('div');
         const orderNumberElement = parentDiv.find('.order-number');
         const orderId = orderNumberElement.data('order-id');
@@ -48,23 +52,38 @@ const updateNewOrdersContent = () => {
         const etaInputElement = parentDiv.find('.eta');
         const etaValue = etaInputElement.val();
 
-        const data = {
-          order_id: orderId,
-          eta: etaValue
-        };
 
-        if (etaValue) {
-          $.post('/api/ordersQueue/accept-order', data)
-            .then(() => {
-              console.log(`${data.order_id} Accepted`);
-            });
+        //order declined
+        if ($(this)[0].className === "btn-decline") {
+          const data = {
+            order_id: orderId
+          };
+          $.post('/api/ordersQueue/decline-order', data);
         }
+
+        //if order was accepted
+        if ($(this)[0].className === "btn-accept" && etaValue) {
+          const data = {
+            order_id: orderId,
+            eta: etaValue
+          };
+          $.post('/api/ordersQueue/accept-order', data);
+        }
+
+        //show details of order
+        if ($(this)[0].className === "btn-details") {
+          //CODE TO SHOW DETAILS OF ORDER.TBD
+        }
+
       });
     })
     .catch((error) => {
       console.error(error);
       newOrdersDiv.html('<p>Failed to fetch orders data.</p>');
     });
+
+
+
 };
 
 //Accepted orders
@@ -84,13 +103,26 @@ const updateAcceptedOrders = () => {
         // Add the accepted orders to the "Accepted Orders" section
         orders.forEach((order) => {
           const orderHTML = `
-            <p>
-              Order Number: ${order.id}
-              Customer ID: ${order.customer_id}
-              Status: ${order.status}
-              ETA: ${order.eta_minutes}
-              Total Amount: ${order.total_amount}
-            </p>
+            <div class="test ${order.id}">
+            <span class="order-number" data-order-id="${order.id}">Order Number: </span> ${order.id}
+            <span class="customer-id">Customer ID: </span> ${order.customer_id}
+            <span class="status">Status: </span> ${order.status}
+
+            <form>
+              <label for="eta">ETA</label>
+              <input type="number" name="eta" class = "eta" required placeholder = ${order.eta_minutes}></input>
+              <button type="submit" class="btn-update-eta">Update</button>
+            </form>
+            <span class="total-amount">Total Amount: </span> ${order.total_amount}
+
+            <form>
+            <button type="submit" class="btn-details">Details</button>
+            <button type="submit" class="btn-ready-for-pickup">Ready for Pickup</button>
+            <button type="submit" class="btn-cancel">Cancel Order</button>
+            </div>
+          </form>
+          <br>
+
           `;
           acceptedOrdersDiv.append(orderHTML);
         });
@@ -99,6 +131,13 @@ const updateAcceptedOrders = () => {
         acceptedOrdersDiv.html('<p>No new orders available.</p>');
       }
     })
+    .then(() => {
+      $(".accepted-orders button").click(function() {
+
+
+      });
+    })
+
     .catch((error) => {
       console.error(error);
       acceptedOrdersDiv.html('<p>Failed to fetch orders data.</p>');
