@@ -30,4 +30,12 @@ router.post('/delete', (req, res) => {
   res.redirect('/order'); // Redirect back to the order page after deletion
 });
 
+router.post('api/ordersQueue', (req, res) => {
+  const { phone, items, subtotal } = req.body;
+  console.log('Phone:', phone);
+  console.log('Items:', items);
+  console.log('Subtotal:', subtotal);
+  res.redirect('/order');
+});
+
 module.exports = router;

@@ -25,7 +25,10 @@
     <p>Restaurant Address</p>
   </div>
 
-
+  <!-- Notifications placeholder -->
+  <div class="notifications">
+    <!-- Add your notifications content here -->
+  </div>
 
   <div class="show-dishes">
     <!-- Should connect to dishes.ejs -->
@@ -35,7 +38,7 @@
 
   <!-- Order form -->
   <div class="order-form">
-    <form action="/place_order" method="POST">
+    <form action="/api/ordersQueue" method="POST">
       <!-- Phone number input -->
       <label for="phone">Phone Number:</label>
       <input type="text" id="phone" name="phone" required>
@@ -43,14 +46,12 @@
 
 
       <!-- Submit and Clear Cart buttons -->
+      <div class="subtotal">
+        <p>Subtotal: $<span id="subtotal">0.00</span></p>
+      </div>
       <button type="submit" id="submit-order-button">Submit Order</button>
     </form>
   </div>
-
-    <!-- Notifications placeholder -->
-    <div class="notifications">
-      <p class="order-status">Order status:</p>
-    </div>
 
 
 
