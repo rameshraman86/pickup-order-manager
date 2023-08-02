@@ -55,7 +55,7 @@ app.use('/api/ordersQueue', ordersQueueApiRoutes);
 // Separate them into separate routes files (see above).
 
 
-app.get('/orders', (req, res) => {
+app.get('/orders_queue', (req, res) => {
   res.render('orders_queue');
 })
 
