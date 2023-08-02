@@ -1,0 +1,58 @@
+// /* Style the navigation bar container */
+.container {
+  display: flex;
+  justify-content: space-between;
+  align-items: center;
+  max-width: 1400px;
+  margin: 0 auto;
+}
+
+/* Style the restaurant name */
+.container h2 {
+  font-size: 30px;
+}
+
+/* Style the navigation links */
+.table li {
+  display: inline-block;
+  margin-left: 20px;
+  padding-left: 40px;
+  font-size: 15px;
+  font-weight: 600;
+  color: black;
+}
+
+/* Style the links */
+.table li a {
+  color: black;
+  text-decoration: none;
+}
+
+/* Style the links on hover */
+.table li a:hover {
+  color: #db2929;
+  text-decoration: none;
+}
+
+// /* Style the links on hover */
+// .table li:hover {
+//   color: #db2929;
+//   cursor: pointer;
+// }
+
+/* Style the sign-up button */
+button[type="submit"] {
+  background-color: rebeccapurple;
+  color: white;
+  border: none;
+  padding: 8px 16px;
+  border-radius: 50px;
+  cursor: pointer;
+  margin: 5px;
+  font-size: 15px;
+}
+
+button[type="submit"]:hover {
+  background-color: gray;
+  cursor: pointer;
+}

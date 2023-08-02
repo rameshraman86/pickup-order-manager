@@ -1,17 +1,112 @@
 <!DOCTYPE html>
 <html lang="en">
-<head>
-    <meta charset="UTF-8">
-    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+  <head>
+    <meta charset="UTF-8" />
+    <meta name="viewport" content="width=device-width, initial-scale=1.0" />
     <title>Restaurant Home</title>
-    <link rel="stylesheet" href="/css/styles.css">
-</head>
-<body>
-    <div class="container">
-        <h1>Welcome to Our Restaurant</h1>
-        <form action="/order" method="GET">
+    <!-- Add your external stylesheets here -->
+    <link
+      rel="stylesheet"
+      href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.0.0-beta3/css/all.min.css"
+    />
+    <link
+      href="https://fonts.googleapis.com/css2?family=Sarabun:wght@100;300&display=swap"
+      rel="stylesheet"
+    />
+    <link rel="stylesheet" href="/css/styles.css" />
+    <link rel="stylesheet" href="/styles/layout.css" />
+    <link rel="stylesheet" href="/styles/nav.css" />
+    <link rel="stylesheet" href="/styles/body.css" />
+  </head>
+  <body>
+    <nav class="container">
+      <span>
+        <h2>Restaurant Name</h2>
+      </span>
+      <div>
+        <ul class="table">
+          <li><a href="#">Home</a></li>
+          <li><a href="#">Menu</a></li>
+          <li><a href="#">About Us</a></li>
+          <li><a href="#">Contact</a></li>
+        </ul>
+      </div>
+      <div>
+        <button type="submit">Login</button>
+        <button type="submit">Sign Up</button>
+      </div>
+    </nav>
+    <div class="boddy">
+      <div class="food-container1">
+        <h2 class="food-text">It's not just the food, it's an experience.</h2>
+        <div class="food_buttons">
+          <button type="submit">View Menu</button>
+          <form action="/order" method="GET">
             <button type="submit" class="order-button">Order Pickup</button>
-        </form>
+          </form>
+        </div>
+      </div>
+      <div class="food-container2">
+        <img
+          src="./images/food_pics.jpeg"
+          alt="picture of a food tray"
+          class="food-image"
+        />
+      </div>
     </div>
-</body>
+    <section class="box-container">
+      <h5 class="box_header">Provide flexible ordering options</h5>
+      <div class="parent-box">
+        <div class="boxes">
+          <img
+            src="https://assets-global.website-files.com/603fc2400ebb18ead7899278/604055093d61b353ddebc7f5_done_24px_rounded.svg"
+            loading="lazy"
+            width="57"
+            alt=""
+            class="check-mark bt-mr-3"
+          />
+          <b>Contactless pickup</b>
+          <em>
+            <p>
+              Opt for contactless pickup and enjoy a safe and hassle-free online
+              food delivery experience through your website, Facebook and
+              Instagram.
+            </p>
+          </em>
+        </div>
+        <div class="boxes">
+          <img
+            src="https://assets-global.website-files.com/603fc2400ebb18ead7899278/604a99e69b4ec14f8e0b1568_Delivery-icon.png"
+            loading="lazy"
+            width="57"
+            alt=""
+            class="check-mark bt-mr-3"
+          />
+          <b>Flat fee delivery</b>
+          <em>
+            <p>
+              Experience the simplicity of flat fee delivery for all your online
+              food orders xperience the simplicity of flat fee delivery for all
+              your online food orders or do it on your own.
+            </p>
+          </em>
+        </div>
+        <div class="boxes">
+          <img
+            src="https://assets-global.website-files.com/603fc2400ebb18ead7899278/604a99eca775ff4056dcdfa9_QR-icon.png"
+            loading="lazy"
+            width="57"
+            alt=""
+            class="check-mark bt-mr-3"
+          />
+          <b>QR code menus</b>
+          <em>
+            <p>
+              Scan our QR code for a seamless online food delivery experience!
+            </p>
+          </em>
+        </div>
+      </div>
+    </section>
+  </body>
 </html>
