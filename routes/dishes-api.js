@@ -6,8 +6,10 @@ const dishes = require('../db/queries/menuDb');
 router.get('/', (req, res) => {
   dishes.getDishes()
     .then(dishes => {
-      console.log(dishes);
-      res.send(dishes);
+      //Adding quantity
+      const dishesWithQuantity = dishes.map(dish => ({ ...dish, quantity: 0 }));
+      console.log(dishesWithQuantity);
+      res.send(dishesWithQuantity);
     })
     .catch(err => {
       console.error(err);
