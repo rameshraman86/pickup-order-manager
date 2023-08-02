@@ -15,6 +15,7 @@
 
   <script src="/vendor/jquery-3.0.0.js"></script>
   <script defer src="/routes/order.js"></script>
+  <script defer src="./scripts/dishes.js"></script>
 </head>
 
 <body>
@@ -29,56 +30,33 @@
     <!-- Add your notifications content here -->
   </div>
 
-  <!-- Dish list -->
-  <div class="dishes-list">
-    <% dishes.forEach((dish) => { %>
-    <div class="dish-row">
-      <!-- Dish image placeholder -->
-      <div class="dish-image">
-        <img src="/images/dish_placeholder.jpg" alt="Dish Image">
-      </div>
-
-      <!-- Dish details -->
-      <div class="dish-details">
-        <h2><%= dish.name %></h2>
-        <p><%= dish.description %></p>
-        <p>Price: $<%= dish.price.toFixed(2) %></p>
-        <!-- Quantity display and Add to Cart button -->
-        <div class="quantity-controls">
-          <span class="quantity-display" data-dish-id="<%= dish.id %>">0</span>
-          <button class="add-to-cart-button" data-dish-id="<%= dish.id %>">Add to Cart</button>
-          <button class="delete-button" data-dish-id="<%= dish.id %>">Delete</button>
-        </div>
-      </div>
-    </div>
-    <% }); %>
+  <div class="show-dishes">
+    <!-- Should connect to dishes.ejs -->
   </div>
+
 
 
   <!-- Order form -->
   <div class="order-form">
-    <form action="/place_order" method="POST">
+    <form action="/api/ordersQueue" method="POST">
       <!-- Phone number input -->
       <label for="phone">Phone Number:</label>
       <input type="text" id="phone" name="phone" required>
 
-      <!-- Subtotal -->
+
+
+      <!-- Submit and Clear Cart buttons -->
       <div class="subtotal">
         <p>Subtotal: $<span id="subtotal">0.00</span></p>
       </div>
-
-      <!-- Submit and Clear Cart buttons -->
-      <div class="form-buttons">
-        <button type="submit">Submit Order</button>
-        <button type="button" id="clear-cart-button">Clear Cart</button>
-      </div>
+      <button type="submit" id="submit-order-button">Submit Order</button>
     </form>
   </div>
 
 
 
   <!-- Fetch dishes data from the server API endpoint on page load -->
-  <script>
+  <!-- <script>
     let dishesData = {};
     document.addEventListener('DOMContentLoaded', async () => {
       console.log("hello");
@@ -96,11 +74,11 @@
       } catch (error) {
         console.error('Error fetching dishes data', error);
       }
-    });
-  </script>
+    }); -->
+  <!-- </script> -->
 
   <!-- Update subtotal function -->
-  <script>
+  <!-- <script>
     function updateSubtotal() {
       const quantityDisplays = document.querySelectorAll('.quantity-display');
       let subtotal = 0;
@@ -115,10 +93,10 @@
 
       document.getElementById('subtotal').textContent = subtotal.toFixed(2);
     }
-  </script>
+  </script> -->
 
   <!-- Event listeners for "Add to Cart" and "Delete" buttons -->
-  <script>
+  <!-- <script>
     document.querySelectorAll('.add-to-cart-button').forEach((button) => {
       button.addEventListener('click', (event) => {
         const dishId = button.getAttribute('data-dish-id');
@@ -156,7 +134,7 @@
 
       updateSubtotal();
     });
-  </script>
+  </script> -->
 
 </body>
 

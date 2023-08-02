@@ -32,10 +32,12 @@ app.use(express.static('public'));
 const homeRoutes = require('./routes/home');
 const orderRoutes = require('./routes/order');
 const ordersQueueApiRoutes = require('./routes/orders-queue-api');
+const dishesApiRoutes = require('./routes/dishes-api');
 
 app.use('/', homeRoutes);
 app.use('/order', orderRoutes);
 app.use('/api/ordersQueue', ordersQueueApiRoutes);
+app.use('/api/dishes', dishesApiRoutes)
 
 
 
