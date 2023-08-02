@@ -2,8 +2,15 @@
 const db = require('../connection');
 //
 //CRUD
-//create
+//
 
+//*********************CREATE*********************
+
+
+
+
+
+//*********************READ*********************
 //readall
 const getOrders = async () => {
 
@@ -23,8 +30,8 @@ const getOrdersByStatus = async () => {
 
 //readAcceptedOrders
 const getAcceptedOrders = async () => {
-  const queryString = "SELECT * FROM orders WHERE status IN ($1, $2, $3, $4);";
-  const queryParams = ["Preparing", "Ready for pickup", "Preparing", "Accepted"];
+  const queryString = "SELECT * FROM orders WHERE status IN ($1, $2, $3, $4, $5);";
+  const queryParams = ["Waiting for pickup", "Preparing", "Ready for pickup", "Preparing", "Accepted"];
 
   const data = await db.query(queryString, queryParams);
   return data.rows;
@@ -39,9 +46,25 @@ const getCompletedOrders = async () => {
   return data.rows;
 };
 
-//update
 
-//delete
+//*********************UPDATE*********************
+const acceptOrder = (order_id, eta) => {
+  const queryString = "UPDATE orders SET status = 'Preparing', eta_minutes = $1 WHERE id = $2 RETURNING *;";
+  const queryParam = [eta, order_id];
+  // await db.query(queryString, queryParam);
+  return db
+    .query(queryString, queryParam)
+    .then((data) => data.rows[0]);
+};
 
 
-module.exports = { getOrders, getOrdersByStatus, getAcceptedOrders, getCompletedOrders };
+//*********************DELETE*********************
+
+
+module.exports = {
+  getOrders,
+  getOrdersByStatus,
+  getAcceptedOrders,
+  getCompletedOrders,
+  acceptOrder
+};

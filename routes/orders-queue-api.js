@@ -8,13 +8,15 @@ const orders = require('../db/queries/ordersDb');
 //CRUD
 
 //************CREATE************
-//create a new order when restaurant clicks 'Accept' button in /orders -->New Orders
-// POST '/orders_queue/accept_order'
-router.post('', (req, res) => {
-  res.send('accepted');
+//When restaurant user clicks 'Accept', grab the order_id from the clicked element object and update the ETA(from input text field), status(to 'Preparing') fields of the order_id.
+// Also need to refresh the '/orders_queue' page so that the accepted order appears in the 'Accepted orders' section of the page.
+router.post('/accept-order', (req, res) => {
+  const { order_id, eta } = req.body;
+  orders.acceptOrder(order_id, eta)
+    .catch((err) => {
+      res.send(`couldn't accept, ` + err);
+    });
 });
-
-
 
 
 //*********READ************
