@@ -2,8 +2,15 @@
 const db = require('../connection');
 //
 //CRUD
-//create
+//
 
+//*********************CREATE*********************
+
+
+
+
+
+//*********************READ*********************
 //readall
 const getOrders = async () => {
 
@@ -23,8 +30,8 @@ const getOrdersByStatus = async () => {
 
 //readAcceptedOrders
 const getAcceptedOrders = async () => {
-  const queryString = "SELECT * FROM orders WHERE status IN ($1, $2, $3, $4);";
-  const queryParams = ["Preparing", "Ready for pickup", "Preparing", "Accepted"];
+  const queryString = "SELECT * FROM orders WHERE status IN ($1, $2, $3, $4, $5) ORDER BY status, eta_minutes DESC;";
+  const queryParams = ["Waiting for pickup", "Preparing", "Ready for pickup", "Preparing", "Accepted"];
 
   const data = await db.query(queryString, queryParams);
   return data.rows;
@@ -32,16 +39,43 @@ const getAcceptedOrders = async () => {
 
 //readCompletedOrders
 const getCompletedOrders = async () => {
-  const queryString = "SELECT * FROM orders WHERE status IN ($1, $2);";
-  const queryParams = ["Cancelled", "Picked up"];
+  const queryString = "SELECT * FROM orders WHERE status IN ($1, $2, $3);";
+  const queryParams = ["Cancelled", "Picked up", "Declined"];
 
   const data = await db.query(queryString, queryParams);
   return data.rows;
 };
 
-//update
 
-//delete
+//*********************UPDATE*********************
+const acceptOrder = (order_id, eta) => {
+  const queryString = "UPDATE orders SET status = 'Preparing', eta_minutes = $1 WHERE id = $2 RETURNING *;";
+  const queryParam = [eta, order_id];
+  return db
+    .query(queryString, queryParam)
+    .then((data) => data.rows[0]);
+};
+
+const declineOrder = (order_id) => {
+  const queryString = "UPDATE orders SET status = 'Declined' WHERE id = $1 RETURNING *;";
+  const queryParam = [order_id];
+  return db
+    .query(queryString, queryParam)
+    .then((data) => data.rows[0]);
+};
+
+//*********************DELETE*********************
 
 
-module.exports = { getOrders, getOrdersByStatus, getAcceptedOrders, getCompletedOrders };
+
+
+
+
+module.exports = {
+  getOrders,
+  getOrdersByStatus,
+  getAcceptedOrders,
+  getCompletedOrders,
+  acceptOrder,
+  declineOrder
+};
