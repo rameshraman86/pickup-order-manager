@@ -31,11 +31,8 @@ const populateDishes = () => {
               <span class="dish-rating">Rating: </span> ${dish.rating}
             <span class="dish-quantity">Quantity: </span>
             <p class="dish-id-${dish.id}"> ${dish.quantity} </p>
-
-
-
             <button class="add-to-cart-button" data-dish-id="${dish.id}" dish-q = "${dish.quantity}">Add to Cart</button>
-              <button type="submit" id="btn-delete">Delete</button>
+            <button class="delete-button" data-dish-id="${dish.id}" dish-q = "${dish.quantity}">Delete</button>
             </div>
           `;
           showDishes.append(dishHTML);
@@ -66,16 +63,28 @@ $(document).ready(function() {
     const dishQElement = $(`.dish-id-${dishId}`);
     let dishQ = dishQElement.text()
     dishQ = parseInt(dishQ);
-
     dishQ += 1;
     console.log(dishQ);
     $(`.dish-id-${dishId}`)[0].innerHTML = dishQ;
 
   });
 
-  // Event listener for "Clear Cart" button
-  $('#clear-cart-button').on('click', function() {
-    $('.dish-quantity').text('0');
+  $(document).on('click', '.delete-button', function() {
+    const dishId = $(this).attr('data-dish-id');
+    const dishQElement = $(`.dish-id-${dishId}`);
+    let dishQ = dishQElement.text()
+    dishQ = parseInt(dishQ);
+    if (dishQ > 0) {
+      dishQ -= 1;
+      console.log(dishQ);
+      $(`.dish-id-${dishId}`).text(dishQ);
+    } else {
+
+      alert('Quantity cannot be less than 0');
+    }
+
   });
+
+
 });
 
