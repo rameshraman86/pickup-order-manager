@@ -196,14 +196,10 @@ $('.order-form form').on('submit', function (e) {
     url: '/api/ordersQueue',
     method: 'POST',
     dataType: 'json',
-    data: { phone, items: cartItems, subtotal: subtotal.toFixed(2) }, // Include the subtotal in the data object
+    data: { phone, items: cartItems, subtotal: subtotal }, //
     success: function (response) {
       // Handle success response (e.g., show a success message)
       console.log('Order submitted successfully');
-      // Optionally, you can clear the cart after the order is submitted:
-      $('.dish-quantity').text('0');
-      // Calculate subtotal and update the display
-      updateSubtotal();
     },
     error: function (error) {
       // Handle error response (e.g., show an error message)
