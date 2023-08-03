@@ -37,7 +37,7 @@ const dishesApiRoutes = require('./routes/dishes-api');
 app.use('/', homeRoutes);
 app.use('/order', orderRoutes);
 app.use('/api/ordersQueue', ordersQueueApiRoutes);
-app.use('/api/dishes', dishesApiRoutes)
+app.use('/api/dishes', dishesApiRoutes);
 
 
 
@@ -59,8 +59,7 @@ app.use('/api/dishes', dishesApiRoutes)
 
 app.get('/orders_queue', (req, res) => {
   res.render('orders_queue');
-})
-
+});
 
 app.listen(PORT, () => {
   console.log(`Example app listening on port ${PORT}`);

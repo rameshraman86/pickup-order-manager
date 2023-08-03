@@ -13,7 +13,6 @@ const db = require('../connection');
 //*********************READ*********************
 //readall
 const getOrders = async () => {
-
   const data = await db.query('SELECT * FROM orders;');
   return data.rows;
 };
@@ -30,12 +29,22 @@ const getOrdersByStatus = async () => {
 
 //readAcceptedOrders
 const getAcceptedOrders = async () => {
-  const queryString = "SELECT * FROM orders WHERE status IN ($1, $2, $3, $4, $5) ORDER BY status, eta_minutes DESC;";
-  const queryParams = ["Waiting for pickup", "Preparing", "Ready for pickup", "Preparing", "Accepted"];
+  const queryString = "SELECT * FROM orders WHERE status IN ($1) ORDER BY status, eta_minutes DESC;";
+  const queryParams = ["Preparing"];
 
   const data = await db.query(queryString, queryParams);
   return data.rows;
 };
+
+//readWaitingToPickupOrders
+const getWaitingToPickupOrders = async () => {
+  const queryString = "SELECT * FROM orders WHERE status IN ($1)";
+  const queryParams = ["Waiting to pickup"];
+
+  const data = await db.query(queryString, queryParams);
+  return data.rows;
+};
+
 
 //readCompletedOrders
 const getCompletedOrders = async () => {
@@ -44,6 +53,18 @@ const getCompletedOrders = async () => {
 
   const data = await db.query(queryString, queryParams);
   return data.rows;
+};
+
+
+//read order details by order_id
+const getOrderDetails = (order_id) => {
+  const queryString = "SELECT d.name AS dish_name,d.dish_type AS dish_type, od.quantity_per_dish AS quantity, od.total_amount_per_dish AS total_amount FROM orders_dishes as od JOIN dishes as d ON od.dish_id = d.id WHERE od.order_id = $1;";
+  const queryParams = [order_id];
+
+  return db.query(queryString, queryParams)
+  .then((data) => {
+    return data.rows;
+  })
 };
 
 
@@ -64,6 +85,53 @@ const declineOrder = (order_id) => {
     .then((data) => data.rows[0]);
 };
 
+
+const udpdateEta = (eta_minutes, order_id) => {
+  const queryString = "UPDATE orders SET eta_minutes = $1 WHERE id = $2 RETURNING *;";
+  const queryParam = [eta_minutes, order_id];
+  return db
+    .query(queryString, queryParam)
+    .then((data) => data.rows[0]);
+};
+
+
+const getEta = (order_id) => {
+  const queryString = "SELECT eta_minutes FROM orders where id = $1;";
+  const queryParam = [order_id];
+
+  return db
+    .query(queryString, queryParam)
+    .then((data) => data.rows[0]);
+};
+
+
+
+const updateStatusWaitingForPickup = (order_id) => {
+  const queryString = "UPDATE orders SET status = $1 WHERE id = $2 RETURNING *;";
+  const queryParam = ["Waiting to pickup", order_id];
+  return db
+    .query(queryString, queryParam)
+    .then((data) => data.rows[0]);
+};
+
+
+const cancelOrder = (order_id) => {
+  const queryString = "UPDATE orders SET status = 'Cancelled' WHERE id = $1 RETURNING *;";
+  const queryParam = [order_id];
+  return db
+    .query(queryString, queryParam)
+    .then((data) => data.rows[0]);
+};
+
+
+const orderPickedUp = (order_id) => {
+  const queryString = "UPDATE orders SET status = 'Picked up' WHERE id = $1 RETURNING *;";
+  const queryParam = [order_id];
+  return db
+    .query(queryString, queryParam)
+    .then((data) => data.rows[0]);
+};
+
 //*********************DELETE*********************
 
 
@@ -76,6 +144,13 @@ module.exports = {
   getOrdersByStatus,
   getAcceptedOrders,
   getCompletedOrders,
+  getWaitingToPickupOrders,
   acceptOrder,
-  declineOrder
+  declineOrder,
+  cancelOrder,
+  udpdateEta,
+  updateStatusWaitingForPickup,
+  orderPickedUp,
+  getEta,
+  getOrderDetails
 };

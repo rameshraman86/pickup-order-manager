@@ -24,15 +24,16 @@ const updateNewOrdersContent = () => {
 
 
           <form>
-            <label for="eta">ETA</label>
-            <input type="number" name="eta" class = "eta" required></input>
-            <button type="submit" class="btn-accept">Accept</button>
-            </div>
+              <label for="eta">ETA</label>
+              <input type="number" name="eta" class = "eta" required></input>
+              <button type="submit" class="btn-accept">Accept</button>
             </form>
 
           <form>
             <button type="submit" class="btn-decline">Decline</button>
             <button type="submit" class="btn-details">Order Details</button>
+            <div class="order-details"></div>
+
           </form>
           <br>
           `;
@@ -44,13 +45,15 @@ const updateNewOrdersContent = () => {
       }
     })
     .then(() => {
-      $(".new-orders button").click(function() {
+      $(".new-orders button").click(function(e) {
+        // e.preventDefault();
         const parentDiv = $(this).closest('div');
         const orderNumberElement = parentDiv.find('.order-number');
         const orderId = orderNumberElement.data('order-id');
 
         const etaInputElement = parentDiv.find('.eta');
         const etaValue = etaInputElement.val();
+        const orderDetailsDiv = parentDiv.find('.order-details');
 
 
         //order declined
@@ -72,18 +75,36 @@ const updateNewOrdersContent = () => {
 
         //show details of order
         if ($(this)[0].className === "btn-details") {
-          //CODE TO SHOW DETAILS OF ORDER.TBD
-        }
+          // data = {
+          //   order_id: orderId
+          // };
+          // $.post('api/ordersQueue/getOrderDetails', data)
+          //   .then((orders) => {
+          //     const showOrderDetails(order) {
 
+          //     }
+
+
+          //     const orderToDisplay = orders;
+          //     $.get('/orders_queue/showOrderDetails')
+          //       .then(() => {
+          //         const orderDetailsDiv = $('.order-details');
+
+
+
+
+          //       })
+          //   })
+          //   .catch(err => {
+          //     console.error('Error fetching order details: ' + err);
+          //   });
+        }
       });
     })
     .catch((error) => {
       console.error(error);
       newOrdersDiv.html('<p>Failed to fetch orders data.</p>');
     });
-
-
-
 };
 
 //Accepted orders
@@ -114,15 +135,13 @@ const updateAcceptedOrders = () => {
               <button type="submit" class="btn-update-eta">Update</button>
             </form>
             <span class="total-amount">Total Amount: </span> ${order.total_amount}
-
             <form>
             <button type="submit" class="btn-details">Details</button>
-            <button type="submit" class="btn-ready-for-pickup">Ready for Pickup</button>
+            <button type="submit" class="btn-ready-to-pickup">Ready to Pickup</button>
             <button type="submit" class="btn-cancel">Cancel Order</button>
             </div>
           </form>
           <br>
-
           `;
           acceptedOrdersDiv.append(orderHTML);
         });
@@ -133,7 +152,38 @@ const updateAcceptedOrders = () => {
     })
     .then(() => {
       $(".accepted-orders button").click(function() {
+        const parentDiv = $(this).closest('div');
 
+        //Update the ETA
+        const orderNumberElement = parentDiv.find('.order-number');
+        const orderId = orderNumberElement.data('order-id');
+
+        const etaInputElement = parentDiv.find('.eta');
+        const etaValue = etaInputElement.val();
+
+        if ($(this)[0].className === "btn-update-eta" && etaValue) {
+          const data = {
+            order_id: orderId,
+            eta_minutes: etaValue
+          };
+          $.post('/api/ordersQueue/update-eta', data);
+        }
+
+        //change status to 'ready for pickup'
+        if ($(this)[0].className === "btn-ready-to-pickup") {
+          const data = {
+            order_id: orderId
+          };
+          $.post('/api/ordersQueue/ready-to-pickup-orer', data);
+        }
+
+        //cancel order
+        if ($(this)[0].className === "btn-cancel") {
+          const data = {
+            order_id: orderId
+          };
+          $.post('/api/ordersQueue/cancel-order', data);
+        }
 
       });
     })
@@ -144,6 +194,63 @@ const updateAcceptedOrders = () => {
     });
 };
 
+
+//waiting to pickup orders
+const updateWaitingToPickupOrders = () => {
+  const waitingToPickupOrdersDiv = $('.waiting-to-pickup-orders div');
+
+  return $.ajax({
+    url: '/api/ordersQueue/waitingToPickup-orders',
+    method: 'GET',
+    dataType: 'json',
+  })
+    .then((orders) => {
+      if (orders.length > 0) {
+        // Clear existing content
+        waitingToPickupOrdersDiv.empty();
+
+        orders.forEach((order) => {
+          const orderHTML = `
+            <div class="test ${order.id}">
+            <span class="order-number" data-order-id="${order.id}">Order Number: </span> ${order.id}
+            <span class="customer-id">Customer ID: </span> ${order.customer_id}
+            <span class="status">Status: </span> ${order.status}
+
+            <span class="total-amount">Total Amount: </span> ${order.total_amount}
+            <form>
+              <button type="submit" class="btn-details">Details</button>
+              <button type="submit" class="btn-pickedup">Picked Up</button>
+            </div>
+          </form>
+          <br>
+          `;
+          waitingToPickupOrdersDiv.append(orderHTML);
+        });
+      } else {
+        // Handle the case when there are no orders
+        waitingToPickupOrdersDiv.html('<p>No new orders available.</p>');
+      }
+    })
+    .then(() => {
+      $(".waiting-to-pickup-orders button").click(function() {
+        const parentDiv = $(this).closest('div');
+        const orderNumberElement = parentDiv.find('.order-number');
+        const orderId = orderNumberElement.data('order-id');
+
+        if ($(this)[0].className === "btn-pickedup") {
+          const data = {
+            order_id: orderId
+          };
+          $.post('/api/ordersQueue/order-picked-up', data);
+        }
+
+      });
+    })
+    .catch((error) => {
+      console.error(error);
+      waitingToPickupOrdersDiv.html('<p>Failed to fetch orders data.</p>');
+    });
+};
 
 //Completed orders
 const updateCompletedOrders = () => {
@@ -187,5 +294,6 @@ const updateCompletedOrders = () => {
 $(document).ready(() => {
   updateNewOrdersContent();
   updateAcceptedOrders();
+  updateWaitingToPickupOrders();
   updateCompletedOrders();
 });
