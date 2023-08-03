@@ -82,6 +82,14 @@ router.post('/decline-order', (req, res) => {
 });
 
 
+router.post('/update-eta', (req, res) => {
+  const { order_id, eta_minutes } = req.body;
+
+  orders.udpdateEta(eta_minutes, order_id)
+    .catch((err) => {
+      res.send('Error updating eta: ', err);
+    });
+});
 
 
 

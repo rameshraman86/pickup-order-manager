@@ -114,7 +114,6 @@ const updateAcceptedOrders = () => {
               <button type="submit" class="btn-update-eta">Update</button>
             </form>
             <span class="total-amount">Total Amount: </span> ${order.total_amount}
-
             <form>
             <button type="submit" class="btn-details">Details</button>
             <button type="submit" class="btn-ready-for-pickup">Ready for Pickup</button>
@@ -122,7 +121,6 @@ const updateAcceptedOrders = () => {
             </div>
           </form>
           <br>
-
           `;
           acceptedOrdersDiv.append(orderHTML);
         });
@@ -133,7 +131,29 @@ const updateAcceptedOrders = () => {
     })
     .then(() => {
       $(".accepted-orders button").click(function() {
+        const parentDiv = $(this).closest('div');
 
+        //update the eta
+        const orderNumberElement = parentDiv.find('.order-number');
+        const orderId = orderNumberElement.data('order-id');
+
+        const etaInputElement = parentDiv.find('.eta');
+        const etaValue = etaInputElement.val();
+
+        if ($(this)[0].className === "btn-update-eta" && etaValue) {
+          const data = {
+            order_id: orderId,
+            eta_minutes: etaValue
+          };
+
+          $.post('/api/ordersQueue/update-eta', data);
+
+        }
+        //change status to 'ready for pickup'
+
+
+
+        //cancel order
 
       });
     })
