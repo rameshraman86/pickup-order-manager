@@ -1,7 +1,6 @@
-/* Style the main container */
 .boddy {
   display: flex;
-  align-items: flex-start; /* Align items at the top of the container */
+  align-items: flex-start;
   justify-content: center;
   padding: 40px;
   margin-top: 10px;
@@ -9,29 +8,33 @@
   box-shadow: 0 0 10px rgba(0, 0, 0, 0.1);
 }
 
-/* Style the food containers */
 .food-container1,
 .food-container2 {
-  display: flex; /* Display them as flex containers */
-  flex-direction: column; /* Arrange items vertically */
-  align-items: center; /* Align items at the left */
-  margin-right: 20px; /* Add some spacing between the two columns */
+  display: flex;
+  flex-direction: column;
+  align-items: center;
+  margin-right: 20px;
 }
 
-/* Style the headline */
 .food-container1 h2 {
   font-size: 50px;
-  margin-bottom: 20px; /* Add some spacing below the headline */
+  margin-top: 50px;
+  padding-top: 30px;
+  margin-bottom: 20px;
   text-align: center;
   margin-left: 0%;
+  font-style: italic;
 }
 
-/* Style the form container */
 .food_buttons {
-  margin-top: 25px; /* Add some spacing between the headline and the form */
+  display: flex;
+  gap: 20px;
 }
 
-/* Style the food image */
+.food_buttons {
+  margin-top: 25px;
+}
+
 .food-image {
   max-width: 100%;
   height: auto;
@@ -39,48 +42,4 @@
   margin-right: 20%;
   box-shadow: 0 0 10px rgba(0, 0, 0, 0.1);
   filter: blur(0px);
-}
-
-/* Style the parent container */
-.parent-box {
-  display: flex;
-  justify-content: space-evenly;
-  max-width: 1400px;
-  margin: 0 auto;
-}
-
-/* Style the individual boxes */
-.boxes {
-  flex: 1;
-  padding: 20px;
-  border-radius: 20px;
-  box-shadow: 0 4px 8px rgba(0, 0, 0, 0.1);
-  margin-right: 20px;
-  background-color: lavender;
-}
-/* Style the icon */
-.icon {
-  max-width: 100px;
-  height: auto;
-  display: block;
-  margin: 0 auto 10px;
-}
-
-/* Additional styles for text elements (you can adjust as needed) */
-b,
-em {
-  display: block;
-  margin-bottom: 10px;
-}
-
-em {
-  font-size: 20px;
-}
-
-.box_header {
-  text-align: center;
-  margin-top: 40px;
-  margin-bottom: 5px;
-  font-size: 24px;
-  font-weight: 700;
 }

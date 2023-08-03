@@ -1,0 +1,111 @@
+/* body */
+*,
+*:before,
+*:after {
+  box-sizing: border-box;
+  font-family: "Sarabun", sans-serif;
+}
+
+body,
+html {
+  margin: 0;
+  padding: 0;
+}
+
+body {
+  color: black;
+  background-color: aliceblue;
+  font-size: 24px;
+  font-family: "Sarabun", sans-serif;
+}
+/* nav section */
+.container {
+  display: flex;
+  justify-content: space-between;
+  align-items: center;
+  max-width: 1400px;
+  margin: 0 auto;
+}
+
+.container h2 {
+  font-size: 30px;
+}
+
+.table li {
+  display: inline-block;
+  margin-left: 20px;
+  padding-left: 40px;
+  font-size: 15px;
+  font-weight: 600;
+  color: black;
+}
+
+.table li a {
+  color: black;
+  text-decoration: none;
+}
+
+.table li a:hover {
+  color: #db2929;
+  text-decoration: none;
+}
+
+button[type="submit"] {
+  background-color: rebeccapurple;
+  color: white;
+  border: none;
+  padding: 8px 16px;
+  border-radius: 50px;
+  cursor: pointer;
+  margin: 5px;
+  font-size: 15px;
+}
+
+button[type="submit"]:hover {
+  background-color: gray;
+  cursor: pointer;
+}
+/* about us section */
+
+.about-us {
+  padding: 20%;
+  background-color: rgba(52, 20, 83, 0.923);
+  box-shadow: 0 5px 20px rgba(0, 0, 0, 0.1);
+  color: whitesmoke;
+  align-items: center;
+  padding-top: 10px;
+}
+
+.about-section {
+  text-align: center;
+  margin-bottom: 40px;
+}
+
+.about-section h1 {
+  font-size: 32px;
+}
+
+.features-section {
+  line-height: 1.6;
+}
+
+.features-section h2 {
+  font-size: 24px;
+  margin-bottom: 10px;
+}
+
+p {
+  font-size: 17px;
+}
+
+.food-image {
+  width: 60vw;
+  height: 50vh;
+  border-radius: 20px;
+  margin-right: 20%;
+  box-shadow: 0 0 10px rgba(0, 0, 0, 0.1);
+}
+
+.food-container3 {
+  padding-top: 5%;
+}
