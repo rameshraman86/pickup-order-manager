@@ -17,4 +17,35 @@ router.get('/', (req, res) => {
     });
 });
 
+
+//this will add a neworder to orders table
+router.post('/add-new-order', (req, res) => {
+  const { total_amount, order_date } = req.body;
+  console.log('node is running: ', total_amount, order_date);
+
+  dishes.addNewOrder(total_amount, order_date)
+    .catch((err) => {
+      console.log('error adding a new order: ', err);
+    });
+});
+
+
+//Post to create the order
+// router.post('/create-dish', (req, res) => {
+//   const { order_id, eta } = req.body;
+
+//   orders.createOrder(order_id, eta)
+//     .catch((err) => {
+//       res.send(`couldn't accept, ` + err);
+//     });
+// });
+
+// router.post('api/ordersQueue', (req, res) => {
+//   const { phone, items, subtotal } = req.body;
+//   console.log('Phone:', phone);
+//   console.log('Items:', items);
+//   console.log('Subtotal:', subtotal);
+//   res.redirect('/order');
+// });
+
 module.exports = router;
