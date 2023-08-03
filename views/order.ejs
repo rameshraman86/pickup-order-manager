@@ -10,8 +10,9 @@
 
   <link rel="stylesheet" href="/vendor/normalize-4.1.1.css" />
   <link rel="stylesheet" href="/vendor/border-box.css" />
-  <link rel="stylesheet" href="/styles/main.css" />
-  <link rel="stylesheet" href="/styles/layout.css" />
+  <!-- <link rel="stylesheet" href="/styles/main.css" />
+  <link rel="stylesheet" href="/styles/layout.css" /> -->
+  <link rel="stylesheet" href="/styles/order.css" />
 
   <script src="/vendor/jquery-3.0.0.js"></script>
   <script defer src="/routes/order.js"></script>
@@ -24,7 +25,7 @@
     <h1>Restaurant Name</h1>
     <p>Restaurant Address</p>
   </div>
-
+ <div class="order_content">
   <!-- Notifications placeholder -->
   <div class="notifications">
     <!-- Add your notifications content here -->
@@ -38,7 +39,7 @@
 
   <!-- Order form -->
   <div class="order-form">
-    <form action="/api/ordersQueue" method="POST">
+    <form >
       <!-- Phone number input -->
       <label for="phone">Phone Number:</label>
       <input type="text" id="phone" name="phone" required>
@@ -53,89 +54,7 @@
     </form>
   </div>
 
-
-
-  <!-- Fetch dishes data from the server API endpoint on page load -->
-  <!-- <script>
-    let dishesData = {};
-    document.addEventListener('DOMContentLoaded', async () => {
-      console.log("hello");
-      try {
-        const response = await fetch('/order/api');
-        const data = await response.json();
-        console.log(">>>>",data);
-        // Store dish data in the dishesData object using dish ID as the key
-        data.dishes.forEach(dish => {
-          dishesData[dish.id] = dish.price;
-        });
-
-        // Call updateSubtotal function to set the initial subtotal
-        updateSubtotal();
-      } catch (error) {
-        console.error('Error fetching dishes data', error);
-      }
-    }); -->
-  <!-- </script> -->
-
-  <!-- Update subtotal function -->
-  <!-- <script>
-    function updateSubtotal() {
-      const quantityDisplays = document.querySelectorAll('.quantity-display');
-      let subtotal = 0;
-
-      quantityDisplays.forEach((display) => {
-        const dishId = display.getAttribute('data-dish-id');
-        const price = dishesData[dishId];
-        const quantity = parseInt(display.textContent);
-        console.log(dishId, dishesData, price, quantity)
-        subtotal += price * quantity;
-      });
-
-      document.getElementById('subtotal').textContent = subtotal.toFixed(2);
-    }
-  </script> -->
-
-  <!-- Event listeners for "Add to Cart" and "Delete" buttons -->
-  <!-- <script>
-    document.querySelectorAll('.add-to-cart-button').forEach((button) => {
-      button.addEventListener('click', (event) => {
-        const dishId = button.getAttribute('data-dish-id');
-        const quantityDisplay = document.querySelector(`.quantity-display[data-dish-id="${dishId}"]`);
-        let quantity = parseInt(quantityDisplay.textContent);
-
-        quantity += 1;
-        quantityDisplay.textContent = quantity.toString();
-
-        updateSubtotal();
-      });
-    });
-
-    document.querySelectorAll('.delete-button').forEach((button) => {
-      button.addEventListener('click', (event) => {
-        const dishId = button.getAttribute('data-dish-id');
-        const quantityDisplay = document.querySelector(`.quantity-display[data-dish-id="${dishId}"]`);
-        let quantity = parseInt(quantityDisplay.textContent);
-
-        quantity -= 1; // Decrease the quantity by 1
-        if (quantity < 0) quantity = 0; // Ensure quantity doesn't go below 0
-        quantityDisplay.textContent = quantity.toString();
-
-        updateSubtotal();
-      });
-    });
-
-    // Event listener for the "Clear Cart" button
-    document.getElementById('clear-cart-button').addEventListener('click', (event) => {
-      const quantityDisplays = document.querySelectorAll('.quantity-display');
-
-      quantityDisplays.forEach((display) => {
-        display.textContent = '0';
-      });
-
-      updateSubtotal();
-    });
-  </script> -->
-
+</div>
 </body>
 
 </html>

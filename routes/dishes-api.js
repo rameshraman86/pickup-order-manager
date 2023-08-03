@@ -17,4 +17,24 @@ router.get('/', (req, res) => {
     });
 });
 
+
+//this will add a neworder to orders table
+router.post('/add-new-order', (req, res) => {
+  const { total_amount, order_date } = req.body;
+  console.log('node is running: ', total_amount, order_date);
+
+  dishes.addNewOrder(total_amount, order_date)
+    .then((result)=>{
+      console.log("Insert was successful ", result);
+      //We need to send the response to the client who made the AJAX Call
+      res.json({result: true});
+    })
+    .catch((err) => {
+      console.log('error adding a new order: ', err);
+      res.json({result: false})
+    });
+});
+
+
+
 module.exports = router;
