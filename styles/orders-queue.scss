@@ -1,6 +1,21 @@
+body {
+  font-family: "Sarabun", sans-serif;
+}
+
+h1 {
+  background-color: #f2f2f2;
+  padding: 20px;
+}
+
+
+
 .content-page {
   display: flex;
   flex-direction: column;
+  justify-content: flex-start;
+  align-items: center;
+  width: 75%;
+  margin: 10%;
 
 
   .new-orders {
@@ -10,6 +25,6 @@
   }
 
   span {
-    font-weight: bold;
+    font-weight: 900;
   }
 }

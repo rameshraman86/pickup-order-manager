@@ -13,7 +13,6 @@ const db = require('../connection');
 //*********************READ*********************
 //readall
 const getOrders = async () => {
-
   const data = await db.query('SELECT * FROM orders;');
   return data.rows;
 };
@@ -84,6 +83,17 @@ const udpdateEta = (eta_minutes, order_id) => {
 };
 
 
+const getEta = (order_id) => {
+  const queryString = "SELECT eta_minutes FROM orders where id = $1;";
+  const queryParam = [order_id];
+
+  return db
+    .query(queryString, queryParam)
+    .then((data) => data.rows[0]);
+};
+
+
+
 const updateStatusWaitingForPickup = (order_id) => {
   const queryString = "UPDATE orders SET status = $1 WHERE id = $2 RETURNING *;";
   const queryParam = ["Waiting to pickup", order_id];
@@ -128,5 +138,6 @@ module.exports = {
   cancelOrder,
   udpdateEta,
   updateStatusWaitingForPickup,
-  orderPickedUp
+  orderPickedUp,
+  getEta
 };

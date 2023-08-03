@@ -4,6 +4,7 @@
 const express = require('express');
 const router = express.Router();
 const orders = require('../db/queries/ordersDb');
+const client = require('twilio')();
 
 //CRUD
 
@@ -79,6 +80,20 @@ router.post('/accept-order', (req, res) => {
   const { order_id, eta } = req.body;
 
   orders.acceptOrder(order_id, eta)
+    .then(() => {
+      console.log('TWILLIO RUNNING');
+      // ****************TWILLIO****************
+      //send sms about order accept
+      client.messages
+        .create({
+          body: `Restaurant has confirmed your order. ETA for pickup is ${eta} minutes. Your order number is ${order_id}. We'll let you know when your order is ready for pickup!`,
+          to: '+14165748446', // Text your number
+          from: '+18506167208', // From a valid Twilio number
+        })
+        .then((message) => console.log(message.sid))
+        .done();
+      // ****************TWILLIO****************
+    })
     .catch((err) => {
       res.send(`couldn't accept, ` + err);
     });
@@ -89,6 +104,20 @@ router.post('/decline-order', (req, res) => {
   const { order_id } = req.body;
 
   orders.declineOrder(order_id)
+    .then(() => {
+      console.log('TWILLIO RUNNING');
+      // ****************TWILLIO****************
+      //send sms about order decline
+      client.messages
+        .create({
+          body: `Your order ${order_id} is declined. Please contact us or reorder. Sorry for the inconvenience.`,
+          to: '+14165748446', // Text your number
+          from: '+18506167208', // From a valid Twilio number
+        })
+        .then((message) => console.log(message.sid));
+      // .done();
+      // ****************TWILLIO****************
+    })
     .catch((err) => {
       res.send(`couldn't decline, ` + err);
     });
@@ -98,7 +127,19 @@ router.post('/cancel-order', (req, res) => {
   const { order_id } = req.body;
 
   orders.cancelOrder(order_id)
-    .catch((err) => {
+    .then(() => {
+      // ****************TWILLIO****************
+      //send sms about order cancel
+      client.messages
+        .create({
+          body: `Unfortunately, the Restaurant has cancelled your order. Apologies for inconvenience. Your refund will be processed immediately.`,
+          to: '+14165748446', // Text your number
+          from: '+18506167208', // From a valid Twilio number
+        })
+        .then((message) => console.log(message.sid))
+        .done();
+      // ****************TWILLIO****************
+    }).catch((err) => {
       res.send(`couldn't cancel, ` + err);
     });
 });
@@ -106,6 +147,13 @@ router.post('/cancel-order', (req, res) => {
 
 router.post('/update-eta', (req, res) => {
   const { order_id, eta_minutes } = req.body;
+
+  let oldEta = 0;
+
+  // orders.getEta(order_id)
+  //   .then((data) => {
+  //     oldEta = data;
+  //   });
 
   orders.udpdateEta(eta_minutes, order_id)
     .catch((err) => {
