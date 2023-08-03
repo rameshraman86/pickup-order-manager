@@ -133,7 +133,7 @@ const updateAcceptedOrders = () => {
       $(".accepted-orders button").click(function() {
         const parentDiv = $(this).closest('div');
 
-        //update the eta
+        //Update the ETA
         const orderNumberElement = parentDiv.find('.order-number');
         const orderId = orderNumberElement.data('order-id');
 
@@ -145,13 +145,16 @@ const updateAcceptedOrders = () => {
             order_id: orderId,
             eta_minutes: etaValue
           };
-
           $.post('/api/ordersQueue/update-eta', data);
 
         }
         //change status to 'ready for pickup'
-
-
+        if ($(this)[0].className === "btn-ready-to-pickup") {
+          const data = {
+            order_id: orderId
+          };
+          $.post('/api/ordersQueue/ready-to-pickup-orer', data);
+        }
 
         //cancel order
 

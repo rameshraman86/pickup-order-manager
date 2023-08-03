@@ -105,6 +105,13 @@ router.post('/update-eta', (req, res) => {
 });
 
 
+router.post('/ready-to-pickup-orer', (req, res) => {
+  const { order_id } = req.body;
+  orders.updateStatusWaitingForPickup(order_id)
+    .catch((err) => {
+      res.send('Error updating status to waiting for pickup: ', err);
+    });
+});
 
 //************delete************
 

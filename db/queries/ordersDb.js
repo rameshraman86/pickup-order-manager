@@ -75,7 +75,6 @@ const declineOrder = (order_id) => {
 };
 
 
-
 const udpdateEta = (eta_minutes, order_id) => {
   const queryString = "UPDATE orders SET eta_minutes = $1 WHERE id = $2 RETURNING *;";
   const queryParam = [eta_minutes, order_id];
@@ -84,7 +83,14 @@ const udpdateEta = (eta_minutes, order_id) => {
     .then((data) => data.rows[0]);
 };
 
-// const readyForPickupStatus = ();
+
+const updateStatusWaitingForPickup = (order_id) => {
+  const queryString = "UPDATE orders SET status = $1 WHERE id = $2 RETURNING *;";
+  const queryParam = ["Waiting to pickup", order_id];
+  return db
+    .query(queryString, queryParam)
+    .then((data) => data.rows[0]);
+};
 
 //*********************DELETE*********************
 
@@ -101,5 +107,6 @@ module.exports = {
   getWaitingToPickupOrders,
   acceptOrder,
   declineOrder,
-  udpdateEta
+  udpdateEta,
+  updateStatusWaitingForPickup
 };
