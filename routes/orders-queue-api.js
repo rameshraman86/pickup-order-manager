@@ -72,6 +72,21 @@ router.get('/completed-orders', (req, res) => {
 });
 
 
+//get order details
+router.post('/getOrderDetails', (req, res) => {
+  const { order_id } = req.body;
+  console.log(`order id is : ${order_id}`);
+
+  orders.getOrderDetails(order_id)
+    .then((orderDetails) => {
+      console.log(orderDetails);
+      res.json(orderDetails);
+    })
+    .catch(err => {
+      res.status(500).json({ error: err.message });
+    });
+});
+
 
 //************update************
 //When restaurant user clicks 'Accept', grab the order_id from the clicked element object and update the ETA(from input text field), status(to 'Preparing') fields of the order_id.

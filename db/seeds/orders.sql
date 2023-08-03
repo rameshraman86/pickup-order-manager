@@ -1,6 +1,6 @@
 INSERT INTO orders (customer_id, status, eta_minutes, total_amount, is_picked_up, order_date, cancel_reason)
 VALUES
-  (1, 'Pending acceptance', NULL, 25.99, FALSE, '2023-07-31 10:00:00', NULL),
+  (1, 'Pending acceptance', NULL, 155.86, FALSE, '2023-07-31 10:00:00', NULL),
   (2, 'Preparing', 30, 19.50, FALSE, '2023-07-31 10:15:00', NULL),
   (3, 'Waiting to pickup', 15, 12.75, FALSE, '2023-07-31 10:30:00', NULL),
   (4, 'Cancelled', NULL, 0, FALSE, '2023-07-31 10:45:00', 'Out of stock'),

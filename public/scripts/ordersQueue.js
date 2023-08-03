@@ -32,6 +32,8 @@ const updateNewOrdersContent = () => {
           <form>
             <button type="submit" class="btn-decline">Decline</button>
             <button type="submit" class="btn-details">Order Details</button>
+            <div class="order-details"></div>
+
           </form>
           <br>
           `;
@@ -43,13 +45,15 @@ const updateNewOrdersContent = () => {
       }
     })
     .then(() => {
-      $(".new-orders button").click(function() {
+      $(".new-orders button").click(function(e) {
+        // e.preventDefault();
         const parentDiv = $(this).closest('div');
         const orderNumberElement = parentDiv.find('.order-number');
         const orderId = orderNumberElement.data('order-id');
 
         const etaInputElement = parentDiv.find('.eta');
         const etaValue = etaInputElement.val();
+        const orderDetailsDiv = parentDiv.find('.order-details');
 
 
         //order declined
@@ -71,18 +75,36 @@ const updateNewOrdersContent = () => {
 
         //show details of order
         if ($(this)[0].className === "btn-details") {
-          //CODE TO SHOW DETAILS OF ORDER.TBD
-        }
+          // data = {
+          //   order_id: orderId
+          // };
+          // $.post('api/ordersQueue/getOrderDetails', data)
+          //   .then((orders) => {
+          //     const showOrderDetails(order) {
 
+          //     }
+
+
+          //     const orderToDisplay = orders;
+          //     $.get('/orders_queue/showOrderDetails')
+          //       .then(() => {
+          //         const orderDetailsDiv = $('.order-details');
+
+
+
+
+          //       })
+          //   })
+          //   .catch(err => {
+          //     console.error('Error fetching order details: ' + err);
+          //   });
+        }
       });
     })
     .catch((error) => {
       console.error(error);
       newOrdersDiv.html('<p>Failed to fetch orders data.</p>');
     });
-
-
-
 };
 
 //Accepted orders

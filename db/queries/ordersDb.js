@@ -56,6 +56,18 @@ const getCompletedOrders = async () => {
 };
 
 
+//read order details by order_id
+const getOrderDetails = (order_id) => {
+  const queryString = "SELECT d.name AS dish_name,d.dish_type AS dish_type, od.quantity_per_dish AS quantity, od.total_amount_per_dish AS total_amount FROM orders_dishes as od JOIN dishes as d ON od.dish_id = d.id WHERE od.order_id = $1;";
+  const queryParams = [order_id];
+
+  return db.query(queryString, queryParams)
+  .then((data) => {
+    return data.rows;
+  })
+};
+
+
 //*********************UPDATE*********************
 const acceptOrder = (order_id, eta) => {
   const queryString = "UPDATE orders SET status = 'Preparing', eta_minutes = $1 WHERE id = $2 RETURNING *;";
@@ -139,5 +151,6 @@ module.exports = {
   udpdateEta,
   updateStatusWaitingForPickup,
   orderPickedUp,
-  getEta
+  getEta,
+  getOrderDetails
 };
