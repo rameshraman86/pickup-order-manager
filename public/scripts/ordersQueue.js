@@ -116,7 +116,7 @@ const updateAcceptedOrders = () => {
             <span class="total-amount">Total Amount: </span> ${order.total_amount}
             <form>
             <button type="submit" class="btn-details">Details</button>
-            <button type="submit" class="btn-ready-for-pickup">Ready for Pickup</button>
+            <button type="submit" class="btn-ready-to-pickup">Ready to Pickup</button>
             <button type="submit" class="btn-cancel">Cancel Order</button>
             </div>
           </form>
@@ -165,6 +165,53 @@ const updateAcceptedOrders = () => {
 };
 
 
+//waiting to pickup orders
+const updateReadyToPickupOrders = () => {
+  const readyToPickupOrdersDiv = $('.waiting-to-pickup-orders div');
+
+  return $.ajax({
+    url: '/api/ordersQueue/waitingToPickup-orders',
+    method: 'GET',
+    dataType: 'json',
+  })
+    .then((orders) => {
+      if (orders.length > 0) {
+        // Clear existing content
+        readyToPickupOrdersDiv.empty();
+
+
+        orders.forEach((order) => {
+          const orderHTML = `
+            <div class="test ${order.id}">
+            <span class="order-number" data-order-id="${order.id}">Order Number: </span> ${order.id}
+            <span class="customer-id">Customer ID: </span> ${order.customer_id}
+            <span class="status">Status: </span> ${order.status}
+
+            <span class="total-amount">Total Amount: </span> ${order.total_amount}
+            <form>
+              <button type="submit" class="btn-details">Details</button>
+              <button type="submit" class="btn-pickedup">Picked Up</button>
+            </div>
+          </form>
+          <br>
+          `;
+          readyToPickupOrdersDiv.append(orderHTML);
+        });
+      } else {
+        // Handle the case when there are no orders
+        readyToPickupOrdersDiv.html('<p>No new orders available.</p>');
+      }
+    })
+
+
+    .catch((error) => {
+      console.error(error);
+      readyToPickupOrdersDiv.html('<p>Failed to fetch orders data.</p>');
+    });
+};
+
+
+
 //Completed orders
 const updateCompletedOrders = () => {
   const completedOrdersDiv = $('.completed-orders div');
@@ -207,5 +254,6 @@ const updateCompletedOrders = () => {
 $(document).ready(() => {
   updateNewOrdersContent();
   updateAcceptedOrders();
+  updateReadyToPickupOrders();
   updateCompletedOrders();
 });

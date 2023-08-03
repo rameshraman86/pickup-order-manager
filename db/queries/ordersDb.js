@@ -30,12 +30,22 @@ const getOrdersByStatus = async () => {
 
 //readAcceptedOrders
 const getAcceptedOrders = async () => {
-  const queryString = "SELECT * FROM orders WHERE status IN ($1, $2, $3, $4, $5) ORDER BY status, eta_minutes DESC;";
-  const queryParams = ["Waiting for pickup", "Preparing", "Ready for pickup", "Preparing", "Accepted"];
+  const queryString = "SELECT * FROM orders WHERE status IN ($1) ORDER BY status, eta_minutes DESC;";
+  const queryParams = ["Preparing"];
 
   const data = await db.query(queryString, queryParams);
   return data.rows;
 };
+
+//readWaitingToPickupOrders
+const getWaitingToPickupOrders = async () => {
+  const queryString = "SELECT * FROM orders WHERE status IN ($1)";
+  const queryParams = ["Waiting to pickup"];
+
+  const data = await db.query(queryString, queryParams);
+  return data.rows;
+};
+
 
 //readCompletedOrders
 const getCompletedOrders = async () => {
@@ -74,6 +84,8 @@ const udpdateEta = (eta_minutes, order_id) => {
     .then((data) => data.rows[0]);
 };
 
+// const readyForPickupStatus = ();
+
 //*********************DELETE*********************
 
 
@@ -86,6 +98,7 @@ module.exports = {
   getOrdersByStatus,
   getAcceptedOrders,
   getCompletedOrders,
+  getWaitingToPickupOrders,
   acceptOrder,
   declineOrder,
   udpdateEta

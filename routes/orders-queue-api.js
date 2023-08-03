@@ -46,6 +46,19 @@ router.get('/accepted-orders', (req, res) => {
     });
 });
 
+//readWaitingToPickUpOrders
+router.get('/waitingToPickup-orders', (req, res) => {
+  orders.getWaitingToPickupOrders()
+    .then(acceptedOrders => {
+      res.send(acceptedOrders);
+    })
+    .catch(err => {
+      res.status(500).json({ error: err.message });
+    });
+});
+
+
+
 //readCompletedOrders
 router.get('/completed-orders', (req, res) => {
   orders.getCompletedOrders()
