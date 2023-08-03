@@ -1,64 +1,3 @@
-// ADD TO HEAD OF EJS
-// const fetchDishes = () => {
-//   return $.ajax({
-//     url: '/api/dishes',
-//     method: 'GET',
-//     dataType: 'json',
-//   })
-//     .then(() => {
-//       //       //to create a new order when submit button is clicked. this will
-//       //       //grab the submit button, total_amount and call the post request api to add a new order.
-//       $('#submit-order-button').on('click', function () {
-//         data = {
-//           total_amount: 2000,
-//           order_date: Date.now(),
-//         }
-//         $.post('/api/dishes/add-new-order', data);
-//       })
-//     });
-// }
-
-
-// const populateDishes = () => {
-//   const showDishes = $('.show-dishes'); //Add to EJS
-
-//   fetchDishes()
-//     .then((dishes) => {
-//       if (dishes.length > 0) {
-//         // Clear existing content
-//         showDishes.empty();
-
-//         // Add the new orders to the "New Orders" section
-//         dishes.forEach((dish) => {
-//           dish.quantity = 0;
-//           const dishHTML = `
-//           <div>
-
-//               <span class="dish-name">Name: </span> ${dish.name}
-//               <span class="dish-description">Description: </span> ${dish.description}
-//               <span class="dish-type">Type: </span> ${dish.dish_type}
-//               <span class="dish-price">Price: </span> $${dish.price}
-//               <span class="dish-rating">Rating: </span> ${dish.rating}
-//             <span class="dish-quantity">Quantity: </span>
-//             <p class="dish-id-${dish.id}"> ${dish.quantity} </p>
-//             <button class="add-to-cart-button" data-dish-id="${dish.id}" dish-q = "${dish.quantity}">Add to Cart</button>
-//             <button class="delete-button" data-dish-id="${dish.id}" dish-q = "${dish.quantity}">Delete</button>
-//             </div>
-
-//           `;
-//           showDishes.append(dishHTML);
-//         });
-//       } else {
-//         // Handle the case when there are no orders
-//         showDishes.html('<p>No new orders available.</p>');
-//       }
-//     })
-//     .catch((error) => {
-//       console.error(error);
-//       showDishes.html('<p>Failed to fetch orders data.</p>');
-//     });
-
-// };
 
 
 //function that returns date in (YYYY-MM-DD HH:mm:ss) format
@@ -81,25 +20,10 @@ function getCurrentDateTime() {
 //Scripts go here to populate divs, make just the divs in the ejs, the fetchdishes is pulling from the api and is routed to the main server
 $(document).ready(function () {
   let subtotal = 0;
-  // Function to fetch dishes from the API and populate the UI
-  // const fetchDishes = () => {
-  // return $.ajax({
-  //   url: '/api/dishes',
-  //   method: 'GET',
-  //   dataType: 'json',
-  // })
-  // .then(() => {
-  //   //       //to create a new order when submit button is clicked. this will
-  //   //       //grab the submit button, total_amount and call the post request api to add a new order.
-  //   $('#submit-order-button').on('click', function () {
-  //     data = {
-  //       total_amount: 2000,
-  //       order_date: Date.now(),
-  //     }
-  //     $.post('/api/dishes/add-new-order', data);
-  //   })
-  // });
-
+  let data = {
+    total_amount: 0, // Initialize total_amount to 0
+    order_date: getCurrentDateTime(),
+  };
 
   const populateDishes = () => {
     const showDishes = $('.show-dishes');
@@ -136,23 +60,49 @@ $(document).ready(function () {
         }
       })
       .then(() => {
-        //       //to create a new order when submit button is clicked. this will
-        //       //grab the submit button, total_amount and call the post request api to add a new order.
-        $('#submit-order-button').on('click', function () {
+        //to create a new order when submit button is clicked. this will
+        //grab the submit button, total_amount and call the post request api to add a new order.
+        $('#submit-order-button').on('click', function (event) {
+          event.preventDefault(); // Prevent the default form submission
+
           console.log('submit button pressed');
-          data = {
-            total_amount: 2001,
+
+          // Get the updated subtotal from the <span> element with id 'subtotal'
+          const subtotal = parseFloat($('#subtotal').text());
+
+          // Get the phone number from the input field
+          const phoneNumber = $('#phone').val();
+
+          const data = {
+            total_amount: subtotal,
             order_date: getCurrentDateTime(),
-          }
-          $.post('/api/dishes/add-new-order', data);
-        })
+            phone: phoneNumber, // Include the phone number in the data object
+          };
+
+          console.log("data", data);
+
+          $.post('/api/dishes/add-new-order', data)
+            .then((data) => {
+              //console.log('pre alert ')
+              //alert('Your order has been placed! You should receive a text soon.');
+              console.log("We made post ajax call and result is ", data.result);
+              if(data.result){
+                  alert("Your order has been placed");
+              } else {
+                alert("Your order was not placed. Please try again!");
+              }
+            })
+            .catch((error) => {
+              console.error('Error submitting order:', error);
+            });
+        });
+
       })
       .catch((error) => {
         console.error(error);
         showDishes.html('<p>Failed to fetch orders data.</p>');
       });
-  }
-  // })
+    }
 
   // Event listener for "Add to Cart" button using event delegation
   $(document).on('click', '.add-to-cart-button', function () {
@@ -197,39 +147,19 @@ $(document).ready(function () {
     $('#subtotal').text(subtotal.toFixed(2));
   };
 
-  // Event listener for form submission
-  // Event listener for form submission
-  //Customer id, status pending, eta null, subtotla, date.now function
-  // $('.order-form form').on('submit', function (e) {
-  //   e.preventDefault();
-  //   const phone = $('#phone').val();
+  function showNotification(message) {
+    const popup = document.getElementById('popup-notification');
+    const notificationMessage = document.getElementById('notification-message');
 
-  //   // Get the cart items and their quantities
-  //   const cartItems = [];
-  //   $('.show-dishes').find('.dish').each(function () {
-  //     const dishId = $(this).find('.add-to-cart-button').attr('data-dish-id');
-  //     const dishQuantity = parseInt($(this).find('.dish-quantity').text());
-  //     if (dishQuantity > 0) {
-  //       cartItems.push({ dishId, quantity: dishQuantity });
-  //     }
-  //   });
+    notificationMessage.textContent = message;
+    popup.classList.add('show');
 
-  //   // Make the API call to submit the order
-  //   $.ajax({
-  //     url: '/api/ordersQueue',
-  //     method: 'POST',
-  //     dataType: 'json',
-  //     data: { phone, items: cartItems, subtotal: subtotal }, //
-  //     success: function (response) {
-  //       // Handle success response (e.g., show a success message)
-  //       console.log('Order submitted successfully');
-  //     },
-  //     error: function (error) {
-  //       // Handle error response (e.g., show an error message)
-  //       console.error('Failed to submit order:', error);
-  //     },
-  //   });
-  // });
+    // Hide the notification after a few seconds (adjust the delay as needed)
+    setTimeout(() => {
+      popup.classList.remove('show');
+    }, 3000);
+  }
+
 
   // Initial population of dishes
   populateDishes();
