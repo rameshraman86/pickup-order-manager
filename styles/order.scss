@@ -1,0 +1,182 @@
+
+/* Global Styles */
+
+body {
+  font-family: Arial, sans-serif;
+  margin: 0;
+  padding: 0;
+}
+
+.container {
+  max-width: 80%; /* Set the width to 80% of the page */
+  margin: 0 auto;
+  padding: 20px;
+}
+
+/* Restaurant banner with name and address */
+
+.banner {
+  text-align: center;
+  background-color: #f2f2f2;
+  padding: 20px;
+}
+
+.banner h1 {
+  font-size: 2.5rem;
+  margin-bottom: 10px;
+}
+
+.banner p {
+  font-size: 1.2rem;
+}
+
+/* Dish list */
+
+.dishes-list {
+  display: grid;
+  grid-template-columns: repeat(1, 1fr);
+  gap: 20px;
+  margin-top: 20px;
+}
+
+/* Dish row */
+
+.dish-row {
+  display: flex;
+  border: 1px solid #ccc;
+  padding: 10px;
+  align-items: center;
+  justify-content: space-between;
+  margin-bottom: 10px; /* Add spacing between dish rows */
+}
+
+/* Dish image */
+
+.dish-image {
+  flex: 0 0 100px;
+}
+
+.dish-image img {
+  width: 100%;
+  height: auto;
+}
+
+/* Dish details */
+
+.dish-details {
+  flex: 1;
+  padding-left: 10px;
+}
+
+.dish-details h2 {
+  font-size: 1.8rem;
+  margin-bottom: 5px;
+}
+
+.dish-details p {
+  font-size: 1.2rem;
+  margin-bottom: 5px;
+}
+
+/* Quantity controls */
+
+.quantity-controls {
+  display: flex;
+  align-items: center;
+  margin-top: 10px;
+}
+
+.quantity-controls input {
+  width: 40px;
+  text-align: center;
+}
+
+/* Order form */
+
+.order-form {
+  margin-top: 30px;
+}
+
+.order-form form {
+  display: flex;
+  align-items: center;
+}
+
+.order-form label {
+  font-size: 1.2rem;
+  margin-right: 10px;
+}
+
+.order-form input[type="text"] {
+  padding: 8px;
+  font-size: 1rem;
+  border: 1px solid #ccc;
+  border-radius: 5px;
+  width: 200px; /* Set the width of the input field */
+}
+
+.order-form button {
+  padding: 10px 20px;
+  font-size: 1.2rem;
+  background-color: #b98eff; /* Light purple color for the submit button */
+  color: #fff;
+  border: none;
+  border-radius: 5px;
+  cursor: pointer;
+  margin-left: 10px; /* Add spacing between the input field and the button */
+}
+
+.order-form button:hover {
+  background-color: #9b73e1;
+}
+
+/* Add to Cart and Delete buttons */
+
+.add-to-cart-button,
+.delete-button {
+  padding: 8px 16px;
+  font-size: 1rem;
+  background-color: #ddd; /* Light grey color for the buttons */
+  color: #333;
+  border: none;
+  border-radius: 5px;
+  cursor: pointer;
+  margin-left: 5px;
+}
+
+.add-to-cart-button:hover,
+.delete-button:hover {
+  background-color: #ccc;
+}
+
+/* Notifications */
+
+.notifications {
+  position: fixed;
+  top: 20px;
+  right: 20px;
+  padding: 10px;
+  background-color: #f2f2f2;
+  box-shadow: 0 0 5px rgba(0, 0, 0, 0.2);
+  z-index: 1;
+}
+
+.notifications p {
+  font-size: 1.2rem;
+  margin: 0;
+  color: #333;
+}
+
+/* Responsive Styles */
+
+@media screen and (min-width: 768px) {
+  .dishes-list {
+    grid-template-columns: repeat(2, 1fr);
+  }
+}
+
+@media screen and (min-width: 1024px) {
+  .dishes-list {
+    grid-template-columns: repeat(3, 1fr);
+  }
+}

@@ -24,6 +24,8 @@ $(document).ready(function () {
     total_amount: 0, // Initialize total_amount to 0
     order_date: getCurrentDateTime(),
   };
+  let orderItems = [];
+
 
   const populateDishes = () => {
     const showDishes = $('.show-dishes');
@@ -73,10 +75,21 @@ $(document).ready(function () {
           // Get the phone number from the input field
           const phoneNumber = $('#phone').val();
 
+          //Clear previous order items
+          orderItems = [];
+          $('.dish').each(function () {
+            const dishId = $(this).find('.dish-quantity').attr('data-dish-id');
+            const dishQuantity = parseInt($(this).find('.dish-quantities').text());
+            orderItems.push({ dishId, quantity: dishQuantity });
+          });
+
+          console.log(orderItems);
+
           const data = {
             total_amount: subtotal,
             order_date: getCurrentDateTime(),
             phone: phoneNumber, // Include the phone number in the data object
+            order_items: orderItems,
           };
 
           console.log("data", data);
@@ -87,7 +100,7 @@ $(document).ready(function () {
               //alert('Your order has been placed! You should receive a text soon.');
               console.log("We made post ajax call and result is ", data.result);
               if(data.result){
-                  alert("Your order has been placed");
+                  alert("Your order has been placed. Please check your phone number for updates. You will get a text once your order has been confirmed.");
               } else {
                 alert("Your order was not placed. Please try again!");
               }
