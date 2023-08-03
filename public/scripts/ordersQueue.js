@@ -24,10 +24,9 @@ const updateNewOrdersContent = () => {
 
 
           <form>
-            <label for="eta">ETA</label>
-            <input type="number" name="eta" class = "eta" required></input>
-            <button type="submit" class="btn-accept">Accept</button>
-            </div>
+              <label for="eta">ETA</label>
+              <input type="number" name="eta" class = "eta" required></input>
+              <button type="submit" class="btn-accept">Accept</button>
             </form>
 
           <form>
@@ -157,6 +156,12 @@ const updateAcceptedOrders = () => {
         }
 
         //cancel order
+        if ($(this)[0].className === "btn-cancel") {
+          const data = {
+            order_id: orderId
+          };
+          $.post('/api/ordersQueue/cancel-order', data);
+        }
 
       });
     })

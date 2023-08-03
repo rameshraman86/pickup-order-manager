@@ -94,6 +94,15 @@ router.post('/decline-order', (req, res) => {
     });
 });
 
+router.post('/cancel-order', (req, res) => {
+  const { order_id } = req.body;
+
+  orders.cancelOrder(order_id)
+    .catch((err) => {
+      res.send(`couldn't cancel, ` + err);
+    });
+});
+
 
 router.post('/update-eta', (req, res) => {
   const { order_id, eta_minutes } = req.body;

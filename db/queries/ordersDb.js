@@ -92,6 +92,15 @@ const updateStatusWaitingForPickup = (order_id) => {
     .then((data) => data.rows[0]);
 };
 
+
+const cancelOrder = (order_id) => {
+  const queryString = "UPDATE orders SET status = 'Cancelled' WHERE id = $1 RETURNING *;";
+  const queryParam = [order_id];
+  return db
+    .query(queryString, queryParam)
+    .then((data) => data.rows[0]);
+};
+
 //*********************DELETE*********************
 
 
@@ -107,6 +116,7 @@ module.exports = {
   getWaitingToPickupOrders,
   acceptOrder,
   declineOrder,
+  cancelOrder,
   udpdateEta,
   updateStatusWaitingForPickup
 };
