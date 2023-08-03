@@ -145,8 +145,8 @@ const updateAcceptedOrders = () => {
             eta_minutes: etaValue
           };
           $.post('/api/ordersQueue/update-eta', data);
-
         }
+
         //change status to 'ready for pickup'
         if ($(this)[0].className === "btn-ready-to-pickup") {
           const data = {
@@ -174,8 +174,8 @@ const updateAcceptedOrders = () => {
 
 
 //waiting to pickup orders
-const updateReadyToPickupOrders = () => {
-  const readyToPickupOrdersDiv = $('.waiting-to-pickup-orders div');
+const updateWaitingToPickupOrders = () => {
+  const waitingToPickupOrdersDiv = $('.waiting-to-pickup-orders div');
 
   return $.ajax({
     url: '/api/ordersQueue/waitingToPickup-orders',
@@ -185,8 +185,7 @@ const updateReadyToPickupOrders = () => {
     .then((orders) => {
       if (orders.length > 0) {
         // Clear existing content
-        readyToPickupOrdersDiv.empty();
-
+        waitingToPickupOrdersDiv.empty();
 
         orders.forEach((order) => {
           const orderHTML = `
@@ -203,22 +202,33 @@ const updateReadyToPickupOrders = () => {
           </form>
           <br>
           `;
-          readyToPickupOrdersDiv.append(orderHTML);
+          waitingToPickupOrdersDiv.append(orderHTML);
         });
       } else {
         // Handle the case when there are no orders
-        readyToPickupOrdersDiv.html('<p>No new orders available.</p>');
+        waitingToPickupOrdersDiv.html('<p>No new orders available.</p>');
       }
     })
+    .then(() => {
+      $(".waiting-to-pickup-orders button").click(function() {
+        const parentDiv = $(this).closest('div');
+        const orderNumberElement = parentDiv.find('.order-number');
+        const orderId = orderNumberElement.data('order-id');
 
+        if ($(this)[0].className === "btn-pickedup") {
+          const data = {
+            order_id: orderId
+          };
+          $.post('/api/ordersQueue/order-picked-up', data);
+        }
 
+      });
+    })
     .catch((error) => {
       console.error(error);
-      readyToPickupOrdersDiv.html('<p>Failed to fetch orders data.</p>');
+      waitingToPickupOrdersDiv.html('<p>Failed to fetch orders data.</p>');
     });
 };
-
-
 
 //Completed orders
 const updateCompletedOrders = () => {
@@ -262,6 +272,6 @@ const updateCompletedOrders = () => {
 $(document).ready(() => {
   updateNewOrdersContent();
   updateAcceptedOrders();
-  updateReadyToPickupOrders();
+  updateWaitingToPickupOrders();
   updateCompletedOrders();
 });
