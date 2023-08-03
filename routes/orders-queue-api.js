@@ -140,7 +140,7 @@ router.post('/cancel-order', (req, res) => {
         .done();
       // ****************TWILLIO****************
     }).catch((err) => {
-      res.send(`couldn't cancel, ` + err);
+      res.send(`couldn't cancel: ` + err);
     });
 });
 
@@ -148,25 +148,61 @@ router.post('/cancel-order', (req, res) => {
 router.post('/update-eta', (req, res) => {
   const { order_id, eta_minutes } = req.body;
 
-  let oldEta = 0;
+  let delayInMinutes = 0;
 
-  // orders.getEta(order_id)
-  //   .then((data) => {
-  //     oldEta = data;
-  //   });
+  orders.getEta(order_id)
+    .then((data) => {
+      delayInMinutes = eta_minutes - data.eta_minutes;
+    });
+
+  const messageBody = function(delayInMinutes) {
+    if (delayInMinutes > 0) {
+      return `Apologies. Your order ${order_id} is delayed by ${delayInMinutes} minutes. We will text you when the order is ready for pickup.`;
+    }
+    if (delayInMinutes < 0) {
+      return `Great News! Your order ${order_id} is early by ${delayInMinutes} minutes. We will text you when the order is ready for pickup.`;
+    }
+  };
 
   orders.udpdateEta(eta_minutes, order_id)
+    .then(() => {
+      // ****************TWILLIO****************
+      //send sms about new eta
+      client.messages
+        .create({
+          body: messageBody(delayInMinutes),
+          to: '+14165748446', // Text your number
+          from: '+18506167208', // From a valid Twilio number
+        })
+        .then((message) => console.log(message.sid))
+        .done();
+      // ****************TWILLIO****************
+    })
     .catch((err) => {
-      res.send('Error updating eta: ', err);
+      res.send(`Error updating eta: ` + err);
     });
 });
 
 
 router.post('/ready-to-pickup-orer', (req, res) => {
   const { order_id } = req.body;
+
   orders.orderPickedUp(order_id)
+    .then(() => {
+      // ****************TWILLIO****************
+      //send sms about order ready to pickup
+      client.messages
+        .create({
+          body: `Great news!!! Your order ${order_id} is ready. Please stop by the front desk to pickup your order.`,
+          to: '+14165748446', // Text your number
+          from: '+18506167208', // From a valid Twilio number
+        })
+        .then((message) => console.log(message.sid))
+        .done();
+      // ****************TWILLIO****************
+    })
     .catch((err) => {
-      res.send('Error updating status to waiting for pickup: ', err);
+      res.send(`Error updating status to waiting for pickup: ` + err);
     });
 });
 
