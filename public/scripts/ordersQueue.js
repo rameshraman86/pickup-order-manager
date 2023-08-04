@@ -45,7 +45,8 @@ const updateNewOrdersContent = () => {
     })
     .then(() => {
       $(".new-orders button").click(function(e) {
-        // e.preventDefault();
+
+
         const parentDiv = $(this).closest('div');
         const orderNumberElement = parentDiv.find('.order-number');
         const orderId = orderNumberElement.data('order-id');
@@ -74,29 +75,31 @@ const updateNewOrdersContent = () => {
 
         //show details of order
         if ($(this)[0].className === "btn-details") {
-          // data = {
-          //   order_id: orderId
-          // };
-          // $.post('api/ordersQueue/getOrderDetails', data)
-          //   .then((orders) => {
-          //     const showOrderDetails(order) {
+          e.preventDefault();
+          data = {
+            order_id: orderId
+          };
+          $.post('api/ordersQueue/getOrderDetails', data)
+            .then((orders) => {
+              let itemNumber = 1;
+              let orderDetailsString = '';
 
-          //     }
+              for (let order of orders) {
+                orderDetailsString += 'ITEM : ' + itemNumber + '\n';
 
+                let dishName = order.dish_name;
+                let type = order.dish_type;
+                let quantity = order.quantity;
+                let amount = order.total_amount;
 
-          //     const orderToDisplay = orders;
-          //     $.get('/orders_queue/showOrderDetails')
-          //       .then(() => {
-          //         const orderDetailsDiv = $('.order-details');
-
-
-
-
-          //       })
-          //   })
-          //   .catch(err => {
-          //     console.error('Error fetching order details: ' + err);
-          //   });
+                orderDetailsString += `Dish: ${dishName}\nType: ${type}\nQuantity: ${quantity}\nTotal: ${amount}\n\n`;
+                itemNumber++;
+              }
+              alert(orderDetailsString);
+            })
+            .catch(err => {
+              console.error('Error fetching order details: ' + err);
+            });
         }
       });
     })
