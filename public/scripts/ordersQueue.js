@@ -22,19 +22,18 @@ const updateNewOrdersContent = () => {
             <span class="customer-id">Customer ID: </span> ${order.customer_id}
             <span class="total-amount">Total Amount: </span> ${order.total_amount}
 
-
-          <form>
-              <label for="eta">ETA</label>
-              <input type="number" name="eta" class = "eta" required></input>
-              <button type="submit" class="btn-accept">Accept</button>
+            <form>
+                <label for="eta">ETA</label>
+                <input type="number" name="eta" class = "eta" required></input>
+                <button type="submit" class="btn-accept">Accept</button>
             </form>
 
-          <form>
-            <button type="submit" class="btn-decline">Decline</button>
-            <button type="submit" class="btn-details">Order Details</button>
-            <div class="order-details"></div>
+            <form class="submit-details">
+              <button type="submit" class="btn-decline">Decline</button>
+              <button type="submit" class="btn-details">Details</button>
+              <div class="order-details"></div>
+            </form>
 
-          </form>
           <br>
           `;
           newOrdersDiv.append(orderHTML);
@@ -135,10 +134,11 @@ const updateAcceptedOrders = () => {
               <button type="submit" class="btn-update-eta">Update</button>
             </form>
             <span class="total-amount">Total Amount: </span> ${order.total_amount}
-            <form>
-            <button type="submit" class="btn-details">Details</button>
+
+            <form class="ready-cancel">
             <button type="submit" class="btn-ready-to-pickup">Ready to Pickup</button>
             <button type="submit" class="btn-cancel">Cancel Order</button>
+            <button type="submit" class="btn-details">Details</button>
             </div>
           </form>
           <br>
@@ -269,12 +269,13 @@ const updateCompletedOrders = () => {
         // Add the completed orders to the "Completed Orders" section
         orders.forEach((order) => {
           const orderHTML = `
-            <p>
-              Order Number: ${order.id}
-              Customer ID: ${order.customer_id}
-              Status: ${order.status}
-              Total Amount: ${order.total_amount}
-            </p>
+          <div class="test ${order.id}">
+            <span class="order-number" data-order-id="${order.id}">Order Number: </span> ${order.id}
+            <span class="customer-id">Customer ID: </span> ${order.customer_id}
+            <span class="status">Status: </span> ${order.status}
+            <span class="total-amount">Total Amount: </span> ${order.total_amount}
+            </div>
+          <br>
           `;
           completedOrdersDiv.append(orderHTML);
         });

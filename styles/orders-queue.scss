@@ -1,30 +1,115 @@
+/* Custom styles for the order queue page */
 body {
-  font-family: "Sarabun", sans-serif;
+  font-family: 'Sarabun', sans-serif;
+  padding-top: 40px;
+  padding-bottom: 40px;
+  color: rgb(251, 246, 239);
 }
 
 h1 {
-  background-color: #f2f2f2;
-  padding: 20px;
+  text-align: center;
+  margin-bottom: 40px;
 }
 
+h2 {
+  margin-top: 40px;
+}
 
+/* Apply Bootstrap classes to the sections */
+.new-orders,
+.accepted-orders,
+.waiting-to-pickup-orders,
+.completed-orders {
+  border: 1px solid #ddd;
+  padding: 20px;
+  margin-bottom: 20px;
+  width: 50%;
+  background-color: #fff;
+  margin-left: 25%;
+  box-shadow: rgba(0, 0, 0, 0.16) 0px 3px 6px, rgba(0, 0, 0, 0.23) 0px 3px 6px;
+  /* Nice background color for the sections */
+}
 
-.content-page {
+/* Styling for order items */
+.new-orders .test,
+.accepted-orders .test,
+.waiting-to-pickup-orders .test,
+.completed-orders p {
+  margin-bottom: 10px;
+  border: 1px solid #ccc;
+  padding: 10px;
+  box-shadow: rgba(67, 71, 85, 0.27) 0px 0px 0.25em, rgba(90, 125, 188, 0.05) 0px 0.25em 1em;
+  // background-color: #ffc107;
+}
+
+/* Make text bolder for order information */
+.order-number,
+.customer-id,
+.total-amount,
+.status {
+  font-weight: bold;
+}
+
+/* Button styling */
+button {
+  margin-right: 15px;
+  border: none;
+  padding: 10px 20px;
+  border-radius: 5px;
+  cursor: pointer;
+  font-size: 14px;
+  text-transform: uppercase;
+}
+
+button:hover {
+  box-shadow: rgba(253, 76, 0, 0.5) 0 3px 8px;
+}
+
+.submit-details {
   display: flex;
-  flex-direction: column;
-  justify-content: flex-start;
-  align-items: center;
-  width: 75%;
-  margin: 10%;
+  justify-content: flex-end;
+  gap: 1%;
+}
 
+.btn-accept {
+  background-color: #4CAF50;
+  color: #fff;
+}
 
-  .new-orders {
-    display: flex;
-    flex-direction: column;
-    background: rgba(109, 119, 109, 0.192);
-  }
+.btn-decline {
+  background-color: #f44336;
+  color: whitesmoke;
+}
 
-  span {
-    font-weight: 900;
-  }
+.btn-details {
+  background-color: #2196f3;
+  color: #fff;
+}
+
+.ready-cancel {
+  display: flex;
+  justify-content: flex-end;
+  gap: 1%;
+}
+
+.btn-ready-to-pickup {
+  background-color: #ffc107;
+  color: #000;
+}
+
+.btn-cancel {
+  background-color: #f44336;
+  color: #fff;
+}
+
+/* Input field styling */
+input[type="number"].eta {
+  width: 70px;
+  text-align: center;
+}
+
+/* Additional Bootstrap styles */
+.container {
+  max-width: 800px;
+  margin: 0 auto;
 }
