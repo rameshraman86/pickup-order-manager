@@ -154,7 +154,7 @@ const updateAcceptedOrders = () => {
       }
     })
     .then(() => {
-      $(".accepted-orders button").click(function() {
+      $(".accepted-orders button").click(function(e) {
         const parentDiv = $(this).closest('div');
 
         //Update the ETA
@@ -186,6 +186,35 @@ const updateAcceptedOrders = () => {
             order_id: orderId
           };
           $.post('/api/ordersQueue/cancel-order', data);
+        }
+
+        //show order details
+        if ($(this)[0].className === "btn-details") {
+          e.preventDefault();
+          data = {
+            order_id: orderId
+          };
+          $.post('api/ordersQueue/getOrderDetails', data)
+            .then((orders) => {
+              let itemNumber = 1;
+              let orderDetailsString = '';
+
+              for (let order of orders) {
+                orderDetailsString += 'ITEM : ' + itemNumber + '\n';
+
+                let dishName = order.dish_name;
+                let type = order.dish_type;
+                let quantity = order.quantity;
+                let amount = order.total_amount;
+
+                orderDetailsString += `Dish: ${dishName}\nType: ${type}\nQuantity: ${quantity}\nTotal: ${amount}\n\n`;
+                itemNumber++;
+              }
+              alert(orderDetailsString);
+            })
+            .catch(err => {
+              console.error('Error fetching order details: ' + err);
+            });
         }
 
       });
@@ -223,7 +252,6 @@ const updateWaitingToPickupOrders = () => {
 
             <form class="details-pickedup">
             <button type="submit" class="btn-pickedup">Picked Up</button>
-            <button type="submit" class="btn-details">Details</button>
             </form>
             </div>
           <br>
