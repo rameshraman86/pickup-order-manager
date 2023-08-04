@@ -36,6 +36,7 @@ const registerRoutes = require("./routes/register");
 const aboutUsRoutes = require("./routes/about_us");
 const contactUsRoutes = require("./routes/contact_us");
 const ordersQueueApiRoutes = require("./routes/orders-queue-api");
+const dishesApiRoutes = require("./routes/dishes-api");
 
 app.use("/", homeRoutes);
 app.use("/login", loginRoutes);
@@ -44,6 +45,7 @@ app.use("/about_us", aboutUsRoutes);
 app.use("/contact_us", contactUsRoutes);
 app.use("/order", orderRoutes);
 app.use("/api/ordersQueue", ordersQueueApiRoutes);
+app.use("/api/dishes", dishesApiRoutes);
 
 // Mount all resource routes
 // Note: Feel free to replace the example routes below with your own
@@ -59,6 +61,9 @@ app.use("/api/ordersQueue", ordersQueueApiRoutes);
 // Separate them into separate routes files (see above).
 
 app.get("/orders", (req, res) => {
+  res.render("orders_queue");
+});
+app.get("/orders_queue", (req, res) => {
   res.render("orders_queue");
 });
 

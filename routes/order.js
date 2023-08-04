@@ -30,4 +30,6 @@ router.post('/delete', (req, res) => {
   res.redirect('/order'); // Redirect back to the order page after deletion
 });
 
+
+
 module.exports = router;

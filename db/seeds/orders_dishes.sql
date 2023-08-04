@@ -1,6 +1,8 @@
 INSERT INTO orders_dishes (order_id, dish_id, quantity_per_dish, total_amount_per_dish)
 VALUES
   (1, 1, 2, 25.98),
+  (1, 2, 2, 19.98),
+  (1, 4, 10, 109.9),
   (2, 2, 1, 9.50),
   (3, 3, 3, 38.25),
   (4, 4, 2, 25.50),

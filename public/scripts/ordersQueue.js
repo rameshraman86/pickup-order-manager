@@ -1,38 +1,41 @@
 // Client facing scripts here
 
-// Function to fetch new orders data from the server. These orders are in 'Pending Acceptance'
-const fetchNewOrders = () => {
+//NEW orders
+const updateNewOrdersContent = () => {
+  const newOrdersDiv = $('.new-orders');
+
   return $.ajax({
     url: '/api/ordersQueue/new-orders',
     method: 'GET',
     dataType: 'json',
-  });
-};
-// Function to update the HTML content with the fetched orders data
-const updateNewOrdersContent = () => {
-  const newOrdersDiv = $('.new-orders');
-
-  fetchNewOrders()
+  })
     .then((orders) => {
       if (orders.length > 0) {
         // Clear existing content
         newOrdersDiv.empty();
 
         // Add the new orders to the "New Orders" section
-        orders.forEach((order) => {
+        orders.forEach((order, index) => {
           const orderHTML = `
-          <div>
-              <span class="order-number">Order Number: </span> ${order.id}
-              <span class="customer-id">Customer ID: </span> ${order.customer_id}
-              <span class="status">Status: </span> ${order.status}
+          <div class="test ${order.id}">
+            <span class="order-number" data-order-id="${order.id}">Order Number: </span> ${order.id}
+            <span class="customer-id">Customer ID: </span> ${order.customer_id}
+            <span class="total-amount">Total Amount: </span> ${order.total_amount}
 
+
+          <form>
               <label for="eta">ETA</label>
-              <input type="text" name="eta" id="eta"></input>
-              <span class="total-amount">Total Amount: </span> ${order.total_amount}
+              <input type="number" name="eta" class = "eta" required></input>
+              <button type="submit" class="btn-accept">Accept</button>
+            </form>
 
-              <button type="submit" id="btn-approve">Approve</button>
-              <button type="submit" id="btn-decline">Decline</button>
-            </div>
+          <form>
+            <button type="submit" class="btn-decline">Decline</button>
+            <button type="submit" class="btn-details">Order Details</button>
+            <div class="order-details"></div>
+
+          </form>
+          <br>
           `;
           newOrdersDiv.append(orderHTML);
         });
@@ -41,26 +44,78 @@ const updateNewOrdersContent = () => {
         newOrdersDiv.html('<p>No new orders available.</p>');
       }
     })
+    .then(() => {
+      $(".new-orders button").click(function(e) {
+        // e.preventDefault();
+        const parentDiv = $(this).closest('div');
+        const orderNumberElement = parentDiv.find('.order-number');
+        const orderId = orderNumberElement.data('order-id');
+
+        const etaInputElement = parentDiv.find('.eta');
+        const etaValue = etaInputElement.val();
+        const orderDetailsDiv = parentDiv.find('.order-details');
+
+
+        //order declined
+        if ($(this)[0].className === "btn-decline") {
+          const data = {
+            order_id: orderId
+          };
+          $.post('/api/ordersQueue/decline-order', data);
+        }
+
+        //if order was accepted
+        if ($(this)[0].className === "btn-accept" && etaValue) {
+          const data = {
+            order_id: orderId,
+            eta: etaValue
+          };
+          $.post('/api/ordersQueue/accept-order', data);
+        }
+
+        //show details of order
+        if ($(this)[0].className === "btn-details") {
+          // data = {
+          //   order_id: orderId
+          // };
+          // $.post('api/ordersQueue/getOrderDetails', data)
+          //   .then((orders) => {
+          //     const showOrderDetails(order) {
+
+          //     }
+
+
+          //     const orderToDisplay = orders;
+          //     $.get('/orders_queue/showOrderDetails')
+          //       .then(() => {
+          //         const orderDetailsDiv = $('.order-details');
+
+
+
+
+          //       })
+          //   })
+          //   .catch(err => {
+          //     console.error('Error fetching order details: ' + err);
+          //   });
+        }
+      });
+    })
     .catch((error) => {
       console.error(error);
       newOrdersDiv.html('<p>Failed to fetch orders data.</p>');
     });
 };
 
-//accepted orders
-const fetchAcceptedOrders = function() {
+//Accepted orders
+const updateAcceptedOrders = () => {
+  const acceptedOrdersDiv = $('.accepted-orders div');
+
   return $.ajax({
     url: '/api/ordersQueue/accepted-orders',
     method: 'GET',
     dataType: 'json',
-  });
-};
-
-// Function to update the HTML content with the fetched orders data
-const updateAcceptedOrders = () => {
-  const acceptedOrdersDiv = $('.accepted-orders div');
-
-  fetchAcceptedOrders()
+  })
     .then((orders) => {
       if (orders.length > 0) {
         // Clear existing content
@@ -69,13 +124,24 @@ const updateAcceptedOrders = () => {
         // Add the accepted orders to the "Accepted Orders" section
         orders.forEach((order) => {
           const orderHTML = `
-            <p>
-              Order Number: ${order.id}
-              Customer ID: ${order.customer_id}
-              Status: ${order.status}
-              ETA: ${order.eta_minutes}
-              Total Amount: ${order.total_amount}
-            </p>
+            <div class="test ${order.id}">
+            <span class="order-number" data-order-id="${order.id}">Order Number: </span> ${order.id}
+            <span class="customer-id">Customer ID: </span> ${order.customer_id}
+            <span class="status">Status: </span> ${order.status}
+
+            <form>
+              <label for="eta">ETA</label>
+              <input type="number" name="eta" class = "eta" required placeholder = ${order.eta_minutes}></input>
+              <button type="submit" class="btn-update-eta">Update</button>
+            </form>
+            <span class="total-amount">Total Amount: </span> ${order.total_amount}
+            <form>
+            <button type="submit" class="btn-details">Details</button>
+            <button type="submit" class="btn-ready-to-pickup">Ready to Pickup</button>
+            <button type="submit" class="btn-cancel">Cancel Order</button>
+            </div>
+          </form>
+          <br>
           `;
           acceptedOrdersDiv.append(orderHTML);
         });
@@ -84,6 +150,44 @@ const updateAcceptedOrders = () => {
         acceptedOrdersDiv.html('<p>No new orders available.</p>');
       }
     })
+    .then(() => {
+      $(".accepted-orders button").click(function() {
+        const parentDiv = $(this).closest('div');
+
+        //Update the ETA
+        const orderNumberElement = parentDiv.find('.order-number');
+        const orderId = orderNumberElement.data('order-id');
+
+        const etaInputElement = parentDiv.find('.eta');
+        const etaValue = etaInputElement.val();
+
+        if ($(this)[0].className === "btn-update-eta" && etaValue) {
+          const data = {
+            order_id: orderId,
+            eta_minutes: etaValue
+          };
+          $.post('/api/ordersQueue/update-eta', data);
+        }
+
+        //change status to 'ready for pickup'
+        if ($(this)[0].className === "btn-ready-to-pickup") {
+          const data = {
+            order_id: orderId
+          };
+          $.post('/api/ordersQueue/ready-to-pickup-orer', data);
+        }
+
+        //cancel order
+        if ($(this)[0].className === "btn-cancel") {
+          const data = {
+            order_id: orderId
+          };
+          $.post('/api/ordersQueue/cancel-order', data);
+        }
+
+      });
+    })
+
     .catch((error) => {
       console.error(error);
       acceptedOrdersDiv.html('<p>Failed to fetch orders data.</p>');
@@ -91,20 +195,72 @@ const updateAcceptedOrders = () => {
 };
 
 
-//accepted orders
-const fetchCompletedOrders = function() {
+//waiting to pickup orders
+const updateWaitingToPickupOrders = () => {
+  const waitingToPickupOrdersDiv = $('.waiting-to-pickup-orders div');
+
+  return $.ajax({
+    url: '/api/ordersQueue/waitingToPickup-orders',
+    method: 'GET',
+    dataType: 'json',
+  })
+    .then((orders) => {
+      if (orders.length > 0) {
+        // Clear existing content
+        waitingToPickupOrdersDiv.empty();
+
+        orders.forEach((order) => {
+          const orderHTML = `
+            <div class="test ${order.id}">
+            <span class="order-number" data-order-id="${order.id}">Order Number: </span> ${order.id}
+            <span class="customer-id">Customer ID: </span> ${order.customer_id}
+            <span class="status">Status: </span> ${order.status}
+
+            <span class="total-amount">Total Amount: </span> ${order.total_amount}
+            <form>
+              <button type="submit" class="btn-details">Details</button>
+              <button type="submit" class="btn-pickedup">Picked Up</button>
+            </div>
+          </form>
+          <br>
+          `;
+          waitingToPickupOrdersDiv.append(orderHTML);
+        });
+      } else {
+        // Handle the case when there are no orders
+        waitingToPickupOrdersDiv.html('<p>No new orders available.</p>');
+      }
+    })
+    .then(() => {
+      $(".waiting-to-pickup-orders button").click(function() {
+        const parentDiv = $(this).closest('div');
+        const orderNumberElement = parentDiv.find('.order-number');
+        const orderId = orderNumberElement.data('order-id');
+
+        if ($(this)[0].className === "btn-pickedup") {
+          const data = {
+            order_id: orderId
+          };
+          $.post('/api/ordersQueue/order-picked-up', data);
+        }
+
+      });
+    })
+    .catch((error) => {
+      console.error(error);
+      waitingToPickupOrdersDiv.html('<p>Failed to fetch orders data.</p>');
+    });
+};
+
+//Completed orders
+const updateCompletedOrders = () => {
+  const completedOrdersDiv = $('.completed-orders div');
+
   return $.ajax({
     url: '/api/ordersQueue/completed-orders',
     method: 'GET',
     dataType: 'json',
-  });
-};
-
-// Function to update the HTML content with the fetched orders data
-const updateCompletedOrders = () => {
-  const completedOrdersDiv = $('.completed-orders div');
-
-  fetchCompletedOrders()
+  })
     .then((orders) => {
       if (orders.length > 0) {
         // Clear existing content
@@ -117,7 +273,6 @@ const updateCompletedOrders = () => {
               Order Number: ${order.id}
               Customer ID: ${order.customer_id}
               Status: ${order.status}
-              ETA: ${order.eta_minutes}
               Total Amount: ${order.total_amount}
             </p>
           `;
@@ -139,5 +294,6 @@ const updateCompletedOrders = () => {
 $(document).ready(() => {
   updateNewOrdersContent();
   updateAcceptedOrders();
+  updateWaitingToPickupOrders();
   updateCompletedOrders();
 });
