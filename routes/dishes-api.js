@@ -2,6 +2,7 @@
 const express = require('express');
 const router = express.Router();
 const dishes = require('../db/queries/menuDb');
+const client = require('twilio')();
 
 router.get('/', (req, res) => {
   dishes.getDishes()
@@ -27,6 +28,18 @@ router.post('/add-new-order', (req, res) => {
     .then((result)=>{
       console.log("Insert was successful ", result);
       //We need to send the response to the client who made the AJAX Call
+      // ****************TWILLIO****************
+      //send sms about order decline
+      client.messages
+        .create({
+          body: `New order has been submitted, please refresh the page to see details and approve/deny.`,
+          to: '+14165748446', // Text your number
+          from: '+18506167208', // From a valid Twilio number
+        })
+        .then((message) => console.log(message.sid));
+      // .done();
+      // ****************TWILLIO****************
+
       res.json({result: true});
     })
     .catch((err) => {
