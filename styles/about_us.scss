@@ -50,7 +50,7 @@ body {
   text-decoration: none;
 }
 
-button[type="submit"] {
+.button-style {
   background-color: rebeccapurple;
   color: white;
   border: none;
@@ -59,12 +59,15 @@ button[type="submit"] {
   cursor: pointer;
   margin: 5px;
   font-size: 15px;
+  text-decoration: none;
+  display: inline-block;
 }
 
-button[type="submit"]:hover {
+.button-style:hover {
   background-color: gray;
   cursor: pointer;
 }
+
 /* about us section */
 
 .about-us {
