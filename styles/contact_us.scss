@@ -136,7 +136,33 @@ label {
   padding-bottom: 10px;
 }
 
-.foot {
-  margin-top: 20%;
-  border-top: 1px solid rgb(146, 136, 136);
+button[type="submit"] {
+  background-color: rebeccapurple;
+  color: white;
+  border: none;
+  border-radius: 4px;
+  cursor: pointer;
+  margin: 5px;
+  font-size: 15px;
+  width: 115%;
+  padding: 12px;
+}
+
+button[type="submit"]:hover {
+  background-color: gray;
+  cursor: pointer;
+}
+.contain__r {
+  display: flex;
+  justify-content: space-between;
+  align-items: center;
+  margin: 0 auto;
+  background-color: lavender;
+  margin-bottom: 20px;
+  font-family: "Sarabun", sans-serif;
+}
+
+.contain__r h2 {
+  font-size: 30px;
+  margin-left: 30px;
 }
