@@ -1,60 +1,61 @@
 <!DOCTYPE html>
 <html lang="en">
+  <head>
+    <title>Order Page</title>
 
-<head>
-  <title>Order Page</title>
+    <meta charset="UTF-8" />
+    <meta http-equiv="X-UA-Compatible" content="IE=edge" />
+    <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+    <link
+      href="https://fonts.googleapis.com/css2?family=Sarabun:wght@100;300&display=swap"
+      rel="stylesheet"
+    />
 
-  <meta charset="UTF-8">
-  <meta http-equiv="X-UA-Compatible" content="IE=edge">
-  <meta name="viewport" content="width=device-width, initial-scale=1.0">
-
-  <link rel="stylesheet" href="/vendor/normalize-4.1.1.css" />
-  <link rel="stylesheet" href="/vendor/border-box.css" />
-  <!-- <link rel="stylesheet" href="/styles/main.css" />
+    <link rel="stylesheet" href="/vendor/normalize-4.1.1.css" />
+    <link rel="stylesheet" href="/vendor/border-box.css" />
+    <!-- <link rel="stylesheet" href="/styles/main.css" />
   <link rel="stylesheet" href="/styles/layout.css" /> -->
-  <link rel="stylesheet" href="/styles/order.css" />
+    <link rel="stylesheet" href="/styles/order.css" />
 
-  <script src="/vendor/jquery-3.0.0.js"></script>
-  <script defer src="/routes/order.js"></script>
-  <script defer src="./scripts/dishes.js"></script>
-</head>
+    <script src="/vendor/jquery-3.0.0.js"></script>
+    <script defer src="/routes/order.js"></script>
+    <script defer src="./scripts/dishes.js"></script>
+  </head>
 
-<body>
-  <!-- Restaurant banner with name and address -->
-  <div class="banner">
-    <h1>Restaurant Name</h1>
-    <p>Restaurant Address</p>
-  </div>
- <div class="order_content">
-  <!-- Notifications placeholder -->
-  <div class="notifications">
-    <!-- Add your notifications content here -->
-  </div>
-
-  <div class="show-dishes">
-    <!-- Should connect to dishes.ejs -->
-  </div>
-
-
-
-  <!-- Order form -->
-  <div class="order-form">
-    <form >
-      <!-- Phone number input -->
-      <label for="phone">Phone Number:</label>
-      <input type="text" id="phone" name="phone" required>
-
-
-
-      <!-- Submit and Clear Cart buttons -->
-      <div class="subtotal">
-        <p>Subtotal: $<span id="subtotal">0.00</span></p>
+  <body>
+    <!-- Restaurant banner with name and address -->
+    <nav class="container">
+      <span>
+        <h2>Restaurant Name</h2>
+      </span>
+    </nav>
+    <div class="foodpic">
+      <img src="./images/food_pics.jpeg">
+    </div>
+    <div class="order_content">
+      <!-- Notifications placeholder -->
+      <div class="notifications">
+        <!-- Add your notifications content here -->
       </div>
-      <button type="submit" id="submit-order-button">Submit Order</button>
-    </form>
-  </div>
 
-</div>
-</body>
+      <div class="show-dishes">
+        <!-- Should connect to dishes.ejs -->
+      </div>
 
+      <!-- Order form -->
+      <div class="order-form">
+        <form>
+          <!-- Phone number input -->
+          <label for="phone">Phone Number:</label>
+          <input type="text" id="phone" name="phone" required />
+
+          <!-- Submit and Clear Cart buttons -->
+          <div class="subtotal">
+            <p>Subtotal: $<span id="subtotal">0.00</span></p>
+          </div>
+          <button type="submit" id="submit-order-button">Submit Order</button>
+        </form>
+      </div>
+    </div>
+  </body>
 </html>
