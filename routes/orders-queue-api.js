@@ -201,8 +201,7 @@ router.post("/update-eta", (req, res) => {
 router.post("/ready-to-pickup-orer", (req, res) => {
   const { order_id } = req.body;
 
-  orders
-    .orderPickedUp(order_id)
+  orders.updateStatusWaitingForPickup(order_id)
     .then(() => {
       // ****************TWILLIO****************
       //send sms about order ready to pickup

@@ -22,19 +22,18 @@ const updateNewOrdersContent = () => {
             <span class="customer-id">Customer ID: </span> ${order.customer_id}
             <span class="total-amount">Total Amount: </span> ${order.total_amount}
 
-
-          <form>
-              <label for="eta">ETA</label>
-              <input type="number" name="eta" class = "eta" required></input>
-              <button type="submit" class="btn-accept">Accept</button>
+            <form>
+                <label for="eta">ETA</label>
+                <input type="number" name="eta" class = "eta" required></input>
+                <button type="submit" class="btn-accept">Accept</button>
             </form>
 
-          <form>
-            <button type="submit" class="btn-decline">Decline</button>
-            <button type="submit" class="btn-details">Order Details</button>
-            <div class="order-details"></div>
+            <form class="submit-details">
+              <button type="submit" class="btn-decline">Decline</button>
+              <button type="submit" class="btn-details">Details</button>
+              <div class="order-details"></div>
+            </form>
 
-          </form>
           <br>
           `;
           newOrdersDiv.append(orderHTML);
@@ -46,7 +45,8 @@ const updateNewOrdersContent = () => {
     })
     .then(() => {
       $(".new-orders button").click(function(e) {
-        // e.preventDefault();
+
+
         const parentDiv = $(this).closest('div');
         const orderNumberElement = parentDiv.find('.order-number');
         const orderId = orderNumberElement.data('order-id');
@@ -75,29 +75,31 @@ const updateNewOrdersContent = () => {
 
         //show details of order
         if ($(this)[0].className === "btn-details") {
-          // data = {
-          //   order_id: orderId
-          // };
-          // $.post('api/ordersQueue/getOrderDetails', data)
-          //   .then((orders) => {
-          //     const showOrderDetails(order) {
+          e.preventDefault();
+          data = {
+            order_id: orderId
+          };
+          $.post('api/ordersQueue/getOrderDetails', data)
+            .then((orders) => {
+              let itemNumber = 1;
+              let orderDetailsString = '';
 
-          //     }
+              for (let order of orders) {
+                orderDetailsString += 'ITEM : ' + itemNumber + '\n';
 
+                let dishName = order.dish_name;
+                let type = order.dish_type;
+                let quantity = order.quantity;
+                let amount = order.total_amount;
 
-          //     const orderToDisplay = orders;
-          //     $.get('/orders_queue/showOrderDetails')
-          //       .then(() => {
-          //         const orderDetailsDiv = $('.order-details');
-
-
-
-
-          //       })
-          //   })
-          //   .catch(err => {
-          //     console.error('Error fetching order details: ' + err);
-          //   });
+                orderDetailsString += `Dish: ${dishName}\nType: ${type}\nQuantity: ${quantity}\nTotal: ${amount}\n\n`;
+                itemNumber++;
+              }
+              alert(orderDetailsString);
+            })
+            .catch(err => {
+              console.error('Error fetching order details: ' + err);
+            });
         }
       });
     })
@@ -135,10 +137,11 @@ const updateAcceptedOrders = () => {
               <button type="submit" class="btn-update-eta">Update</button>
             </form>
             <span class="total-amount">Total Amount: </span> ${order.total_amount}
-            <form>
-            <button type="submit" class="btn-details">Details</button>
+
+            <form class="ready-cancel">
             <button type="submit" class="btn-ready-to-pickup">Ready to Pickup</button>
             <button type="submit" class="btn-cancel">Cancel Order</button>
+            <button type="submit" class="btn-details">Details</button>
             </div>
           </form>
           <br>
@@ -151,7 +154,7 @@ const updateAcceptedOrders = () => {
       }
     })
     .then(() => {
-      $(".accepted-orders button").click(function() {
+      $(".accepted-orders button").click(function(e) {
         const parentDiv = $(this).closest('div');
 
         //Update the ETA
@@ -183,6 +186,35 @@ const updateAcceptedOrders = () => {
             order_id: orderId
           };
           $.post('/api/ordersQueue/cancel-order', data);
+        }
+
+        //show order details
+        if ($(this)[0].className === "btn-details") {
+          e.preventDefault();
+          data = {
+            order_id: orderId
+          };
+          $.post('api/ordersQueue/getOrderDetails', data)
+            .then((orders) => {
+              let itemNumber = 1;
+              let orderDetailsString = '';
+
+              for (let order of orders) {
+                orderDetailsString += 'ITEM : ' + itemNumber + '\n';
+
+                let dishName = order.dish_name;
+                let type = order.dish_type;
+                let quantity = order.quantity;
+                let amount = order.total_amount;
+
+                orderDetailsString += `Dish: ${dishName}\nType: ${type}\nQuantity: ${quantity}\nTotal: ${amount}\n\n`;
+                itemNumber++;
+              }
+              alert(orderDetailsString);
+            })
+            .catch(err => {
+              console.error('Error fetching order details: ' + err);
+            });
         }
 
       });
@@ -217,11 +249,11 @@ const updateWaitingToPickupOrders = () => {
             <span class="status">Status: </span> ${order.status}
 
             <span class="total-amount">Total Amount: </span> ${order.total_amount}
-            <form>
-              <button type="submit" class="btn-details">Details</button>
-              <button type="submit" class="btn-pickedup">Picked Up</button>
+
+            <form class="details-pickedup">
+            <button type="submit" class="btn-pickedup">Picked Up</button>
+            </form>
             </div>
-          </form>
           <br>
           `;
           waitingToPickupOrdersDiv.append(orderHTML);
@@ -269,12 +301,15 @@ const updateCompletedOrders = () => {
         // Add the completed orders to the "Completed Orders" section
         orders.forEach((order) => {
           const orderHTML = `
-            <p>
-              Order Number: ${order.id}
-              Customer ID: ${order.customer_id}
-              Status: ${order.status}
-              Total Amount: ${order.total_amount}
-            </p>
+
+          <div class="test ${order.id}">
+            <span class="order-number" data-order-id="${order.id}">Order Number: </span> ${order.id}
+            <span class="customer-id">Customer ID: </span> ${order.customer_id}
+            <span class="status">Status: </span> ${order.status}
+            <span class="total-amount">Total Amount: </span> ${order.total_amount}
+            </div>
+
+          <br>
           `;
           completedOrdersDiv.append(orderHTML);
         });
