@@ -34,7 +34,7 @@ h2 {
 .new-orders .test,
 .accepted-orders .test,
 .waiting-to-pickup-orders .test,
-.completed-orders p {
+.completed-orders .test{
   margin-bottom: 10px;
   border: 1px solid #ccc;
   padding: 10px;
@@ -102,6 +102,21 @@ button:hover {
   color: #fff;
 }
 
+.details-pickedup {
+  display: flex;
+  justify-content: flex-end;
+  gap: 1%;
+}
+
+.btn-pickedup {
+  background-color: #ffc107;
+}
+
+
+.completed-orders div {
+  display: flex;
+  flex-direction: column;
+}
 /* Input field styling */
 input[type="number"].eta {
   width: 70px;

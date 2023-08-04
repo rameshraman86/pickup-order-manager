@@ -217,11 +217,12 @@ const updateWaitingToPickupOrders = () => {
             <span class="status">Status: </span> ${order.status}
 
             <span class="total-amount">Total Amount: </span> ${order.total_amount}
-            <form>
-              <button type="submit" class="btn-details">Details</button>
-              <button type="submit" class="btn-pickedup">Picked Up</button>
+
+            <form class="details-pickedup">
+            <button type="submit" class="btn-pickedup">Picked Up</button>
+            <button type="submit" class="btn-details">Details</button>
+            </form>
             </div>
-          </form>
           <br>
           `;
           waitingToPickupOrdersDiv.append(orderHTML);
@@ -269,12 +270,14 @@ const updateCompletedOrders = () => {
         // Add the completed orders to the "Completed Orders" section
         orders.forEach((order) => {
           const orderHTML = `
+
           <div class="test ${order.id}">
             <span class="order-number" data-order-id="${order.id}">Order Number: </span> ${order.id}
             <span class="customer-id">Customer ID: </span> ${order.customer_id}
             <span class="status">Status: </span> ${order.status}
             <span class="total-amount">Total Amount: </span> ${order.total_amount}
             </div>
+
           <br>
           `;
           completedOrdersDiv.append(orderHTML);
