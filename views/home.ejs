@@ -17,6 +17,8 @@
     <link rel="stylesheet" href="/styles/layout.css" />
     <link rel="stylesheet" href="/styles/nav.css" />
     <link rel="stylesheet" href="/styles/body.css" />
+    <link rel="stylesheet" href="/styles/card.css" />
+    <link rel="stylesheet" href="/styles/footer.css" />
   </head>
   <body>
     <nav class="container">
@@ -25,25 +27,25 @@
       </span>
       <div>
         <ul class="table">
-          <li><a href="#">Home</a></li>
-          <li><a href="#">Menu</a></li>
-          <li><a href="#">About Us</a></li>
-          <li><a href="#">Contact</a></li>
+          <li><a href="/#">Home</a></li>
+          <li><a href="/order">Menu</a></li>
+          <li><a href="/about_us">About Us</a></li>
+          <li><a href="/contact_us">Contact</a></li>
         </ul>
       </div>
       <div>
-        <button type="submit">Login</button>
-        <button type="submit">Sign Up</button>
+        <a href="/login" class="btn button-style">Login</a>
+        <a href="/register" class="btn button-style">Sign up</a>
       </div>
     </nav>
     <div class="boddy">
       <div class="food-container1">
         <h2 class="food-text">It's not just the food, it's an experience.</h2>
         <div class="food_buttons">
-          <button type="submit">View Menu</button>
           <form action="/order" method="GET">
             <button type="submit" class="order-button">Order Pickup</button>
           </form>
+          <button type="submit">View Menu</button>
         </div>
       </div>
       <div class="food-container2">
@@ -55,7 +57,7 @@
       </div>
     </div>
     <section class="box-container">
-      <h5 class="box_header">Provide flexible ordering options</h5>
+      <h3 class="box_header">We provide flexible ordering options</h3>
       <div class="parent-box">
         <div class="boxes">
           <img
@@ -108,5 +110,47 @@
         </div>
       </div>
     </section>
+
+    <section class="box-container2">
+      <h3 class="box_header2">How online ordering works</h3>
+      <div class="parent-box2">
+        <div class="cards">
+          <img
+            src="https://assets-global.website-files.com/603fc2400ebb18ead7899278/6051229ca8fbde4adff26411_one_24px.png"
+            loading="lazy"
+            alt=""
+            class="number bt-mr-3"
+          />
+          <h5>Customer places an order</h5>
+          <p>
+            Customers order and pay ahead via the website, social media or QR
+            code menus.
+          </p>
+        </div>
+        <div class="cards">
+          <img
+            src="https://assets-global.website-files.com/603fc2400ebb18ead7899278/6051231cfe26e13f80ec0243_two_24px.png"
+            loading="lazy"
+            alt=""
+            class="number bt-mr-3"
+          />
+          <h5>Restaurant accepts order</h5>
+          <p>Restaurant accepts the order on the website.</p>
+        </div>
+        <div class="cards">
+          <img
+            src="https://assets-global.website-files.com/603fc2400ebb18ead7899278/6051231c2f3397b984d4052c_three_24px.png"
+            loading="lazy"
+            alt=""
+            class="number bt-mr-3"
+          />
+          <h5>Order is ready to be picked up</h5>
+          <p>Customer or delivery driver picks up order when notified.</p>
+        </div>
+      </div>
+    </section>
+    <footer class="foot">
+      <p>&copy; 2023 Group 4. All rights reserved.</p>
+    </footer>
   </body>
 </html>

@@ -1,0 +1,100 @@
+.box-container {
+  margin-top: 5%;
+}
+
+.parent-box {
+  display: flex;
+  justify-content: space-evenly;
+  max-width: 1200px;
+  margin: 0 auto;
+  margin-top: 20px;
+}
+
+.boxes {
+  flex: 1;
+  padding: 20px;
+  border-radius: 20px;
+  box-shadow: 0 4px 8px rgba(0, 0, 0, 0.1);
+  margin-right: 20px;
+  background-color: lavender;
+}
+
+.icon {
+  max-width: 100px;
+  height: auto;
+  display: block;
+  margin: 0 auto 10px;
+}
+
+b {
+  display: block;
+  margin-bottom: 10px;
+}
+
+em {
+  font-size: 20px;
+  display: block;
+  margin-bottom: 10px;
+}
+
+.box_header {
+  text-align: center;
+  margin-top: 40px;
+  margin-bottom: 5px;
+  font-size: 24px;
+  font-weight: 700;
+  margin-left: -25px;
+}
+
+.box-container2 {
+  padding: 20px;
+  margin-top: 10%;
+  border-top: 10px;
+  background-color: aliceblue;
+  box-shadow: 0 4px 8px rgba(0, 0, 0, 0.1);
+  border-top: 1px solid rgb(146, 136, 136);
+  border-bottom: 1px solid rgb(146, 136, 136);
+  margin-bottom: 2%;
+}
+
+.parent-box2 {
+  display: flex; /* Display the cards on the same line */
+  gap: 20px; /* Add some spacing between the cards */
+  max-width: 850px;
+  margin: 0 auto;
+}
+
+.cards {
+  flex: 1;
+  padding: 50px;
+  border-radius: 8px;
+  margin: 0, 32;
+}
+
+.number {
+  max-width: 30px;
+  height: auto;
+  display: block;
+  margin: 0 auto 10px;
+  margin-left: 55px;
+}
+
+p {
+  display: block;
+  margin-bottom: 10px;
+  font-size: 18px;
+}
+
+h5 {
+  font-weight: bolder;
+  font-size: 19px;
+  margin-bottom: 0%;
+}
+
+.box_header2 {
+  text-align: center;
+  margin-top: 40px;
+  margin-bottom: 5px;
+  font-size: 27px;
+  font-weight: 700;
+}

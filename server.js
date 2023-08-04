@@ -1,45 +1,51 @@
 // load .env data into process.env
-require('dotenv').config();
+require("dotenv").config();
 
 // Web server config
-const sassMiddleware = require('./lib/sass-middleware');
-const express = require('express');
-const morgan = require('morgan');
+const sassMiddleware = require("./lib/sass-middleware");
+const express = require("express");
+const morgan = require("morgan");
 
 const PORT = process.env.PORT || 8080;
 const app = express();
 
-app.set('view engine', 'ejs');
+app.set("view engine", "ejs");
 
 // Load the logger first so all (static) HTTP requests are logged to STDOUT
 // 'dev' = Concise output colored by response status for development use.
 //         The :status token will be colored red for server error codes, yellow for client error codes, cyan for redirection codes, and uncolored for all other codes.
-app.use(morgan('dev'));
+app.use(morgan("dev"));
 app.use(express.urlencoded({ extended: true }));
 app.use(
-  '/styles',
+  "/styles",
   sassMiddleware({
-    source: __dirname + '/styles',
-    destination: __dirname + '/public/styles',
+    source: __dirname + "/styles",
+    destination: __dirname + "/public/styles",
     isSass: false, // false => scss, true => sass
   })
 );
-app.use(express.static('public'));
+app.use(express.static("public"));
 
 // Separated Routes for each Resource
 // Note: Feel free to replace the example routes below with your own
 
-const homeRoutes = require('./routes/home');
-const orderRoutes = require('./routes/order');
-const ordersQueueApiRoutes = require('./routes/orders-queue-api');
-const dishesApiRoutes = require('./routes/dishes-api');
+const homeRoutes = require("./routes/home");
+const orderRoutes = require("./routes/order");
+const loginRoutes = require("./routes/login");
+const registerRoutes = require("./routes/register");
+const aboutUsRoutes = require("./routes/about_us");
+const contactUsRoutes = require("./routes/contact_us");
+const ordersQueueApiRoutes = require("./routes/orders-queue-api");
+const dishesApiRoutes = require("./routes/dishes-api");
 
-app.use('/', homeRoutes);
-app.use('/order', orderRoutes);
-app.use('/api/ordersQueue', ordersQueueApiRoutes);
-app.use('/api/dishes', dishesApiRoutes);
-
-
+app.use("/", homeRoutes);
+app.use("/login", loginRoutes);
+app.use("/register", registerRoutes);
+app.use("/about_us", aboutUsRoutes);
+app.use("/contact_us", contactUsRoutes);
+app.use("/order", orderRoutes);
+app.use("/api/ordersQueue", ordersQueueApiRoutes);
+app.use("/api/dishes", dishesApiRoutes);
 
 // Mount all resource routes
 // Note: Feel free to replace the example routes below with your own
@@ -48,17 +54,17 @@ app.use('/api/dishes', dishesApiRoutes);
 // app.use('/api/widgets', widgetApiRoutes);
 // app.use('/users', usersRoutes);
 
-
-
 // Note: mount other resources here, using the same pattern above
 
 // Home page
 // Warning: avoid creating more routes in this file!
 // Separate them into separate routes files (see above).
 
-
-app.get('/orders_queue', (req, res) => {
-  res.render('orders_queue');
+app.get("/orders", (req, res) => {
+  res.render("orders_queue");
+});
+app.get("/orders_queue", (req, res) => {
+  res.render("orders_queue");
 });
 
 app.listen(PORT, () => {
