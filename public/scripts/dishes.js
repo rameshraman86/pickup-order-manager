@@ -67,7 +67,6 @@ $(document).ready(function () {
         $('#submit-order-button').on('click', function (event) {
           event.preventDefault(); // Prevent the default form submission
 
-          console.log('submit button pressed');
 
           // Get the updated subtotal from the <span> element with id 'subtotal'
           const subtotal = parseFloat($('#subtotal').text());
@@ -83,8 +82,6 @@ $(document).ready(function () {
             orderItems.push({ dishId, quantity: dishQuantity });
           });
 
-          console.log(orderItems);
-
           const data = {
             total_amount: subtotal,
             order_date: getCurrentDateTime(),
@@ -92,13 +89,8 @@ $(document).ready(function () {
             order_items: orderItems,
           };
 
-          console.log("data", data);
-
           $.post('/api/dishes/add-new-order', data)
             .then((data) => {
-              //console.log('pre alert ')
-              //alert('Your order has been placed! You should receive a text soon.');
-              console.log("We made post ajax call and result is ", data.result);
               if(data.result){
                   alert("Your order has been placed. Please check your phone number for updates. You will get a text once your order has been confirmed.");
               } else {
@@ -137,7 +129,6 @@ $(document).ready(function () {
     dishQ = parseInt(dishQ);
     if (dishQ > 0) {
       dishQ -= 1;
-      console.log(dishQ);
       $(`.dish-id-${dishId}`).text(dishQ);
       // Calculate subtotal and update the display
       updateSubtotal();

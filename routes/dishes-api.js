@@ -9,7 +9,6 @@ router.get('/', (req, res) => {
     .then(dishes => {
       //Adding quantity
       const dishesWithQuantity = dishes.map(dish => ({ ...dish, quantity: 0 }));
-      console.log(dishesWithQuantity);
       res.send(dishesWithQuantity);
     })
     .catch(err => {
@@ -22,8 +21,6 @@ router.get('/', (req, res) => {
 //this will add a neworder to orders table
 router.post('/add-new-order', (req, res) => {
   const { total_amount, order_date } = req.body;
-  console.log('node is running: ', total_amount, order_date);
-
   dishes.addNewOrder(total_amount, order_date)
     .then((result)=>{
       console.log("Insert was successful ", result);

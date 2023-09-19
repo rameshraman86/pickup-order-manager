@@ -13,7 +13,6 @@ const handleAcceptButtonClick = function(event) {
   //   eta: eta
   // };
 
-  console.log('client js file running');
 
   // Send the POST request to the server
   // $.post('/api/ordersQueue/accept-order', data)

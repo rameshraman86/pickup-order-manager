@@ -73,12 +73,9 @@ router.get("/completed-orders", (req, res) => {
 //get order details
 router.post("/getOrderDetails", (req, res) => {
   const { order_id } = req.body;
-  console.log(`order id is : ${order_id}`);
-
   orders
     .getOrderDetails(order_id)
     .then((orderDetails) => {
-      console.log(orderDetails);
       res.json(orderDetails);
     })
     .catch((err) => {
