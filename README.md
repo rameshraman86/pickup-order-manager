@@ -39,9 +39,10 @@ Additionally, it empowers restaurant owners to efficiently manage both incoming 
 
    Replace `<repository_url>` with the actual URL of your GitHub repository.
 
-  2. **Install Dependencies:**
+2. **Install Dependencies:**
      ```bash
      npm install
+     npm run db:reset
      ```
 
 3. **Start the development server:**
