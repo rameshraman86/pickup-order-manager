@@ -1,8 +1,7 @@
 # Pickup Order Manager
 
-Full-stack multi-page web application designed to offer a complete solution for restaurants. It not only showcases the restaurant's menu but also provides customers with the ability to place pickup orders and receive notifications when their food is ready. 
-
-Additionally, it empowers restaurant owners to efficiently manage both incoming and existing orders, provide pickup ETAs, and notify customers when their orders are ready for pickup.
+Full-stack multi-page web application designed to offer a complete solution for restaurants. The app allows restaurant owners to efficiently manage incoming and existing orders, provide pickup ETAs, and notify their customers when orders are ready for pickup.
+Additionally, it provides restaurants the ability to manage their public menu and allow customers to place order.
 
 
 ## Technology Stack
