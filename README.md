@@ -26,7 +26,7 @@ Additionally, it empowers restaurant owners to efficiently manage both incoming 
 ## Project Setup Instructions
 
 ### Prerequisites:
-- Ensure you have Node.js and npm (Node Package Manager) installed on your system.
+- Ensure you have Node.js, npm (Node Package Manager), postgreSQL installed on your system.
 
 ### Setup Instructions:
 
