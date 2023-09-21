@@ -9,18 +9,17 @@ const getDishes = async () => {
 };
 
 
-
 //insert a new order into orders table. i am hardcoding customer id to 11
 const addNewOrder = (total_amount, order_date) => {
-
   const queryString = `INSERT INTO orders (customer_id, status, total_amount, order_date) VALUES ($1, $2, $3, $4) RETURNING *;`;
   const queryParams = ["1", "Pending acceptance", total_amount, order_date];
-  return db.query(queryString, queryParams)
+  return db
+    .query(queryString, queryParams)
+    .then(data => {
+      return data.rows[0];
+    })
+    .catch(error => console.error(`Error adding new order`, error));
 };
-
-//Insert into orders and then orders_dishes
-
-'INSERT INTO orders_dishes'
 
 module.exports = {
   getDishes,

@@ -22,8 +22,7 @@ router.get('/', (req, res) => {
 router.post('/add-new-order', (req, res) => {
   const { total_amount, order_date } = req.body;
   dishes.addNewOrder(total_amount, order_date)
-    .then((result)=>{
-      console.log("Insert was successful ", result);
+    .then(() => {
       //We need to send the response to the client who made the AJAX Call
       // ****************TWILLIO****************
       //send sms about order decline
@@ -37,11 +36,11 @@ router.post('/add-new-order', (req, res) => {
       // .done();
       // ****************TWILLIO****************
 
-      res.json({result: true});
+      res.json({ result: true });
     })
     .catch((err) => {
       console.log('error adding a new order: ', err);
-      res.json({result: false})
+      res.json({ result: false });
     });
 });
 
